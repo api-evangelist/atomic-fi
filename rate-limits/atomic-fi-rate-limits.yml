@@ -1,0 +1,59 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Atomic
+providerId: atomic-fi
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Fintech
+- Payroll
+- Financial Connectivity
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Atomic does not publish specific public rate-limit numbers for its
+  UserLink and PayLink APIs. Limits are applied per account/credential and
+  negotiated as part of the enterprise agreement. Backend endpoints are
+  authenticated with API Key + Secret and are expected to be called from a
+  server, not the client. Task processing is asynchronous - work is queued
+  and completion is signaled via task status and webhooks rather than
+  synchronous request rate. Specific per-endpoint values are not reconciled
+  in this artifact.
+notes: >-
+  Confirm concrete per-account limits and any burst/throttle behavior with
+  Atomic during onboarding. Because tasks run asynchronously, design around
+  task-status polling and webhooks instead of tight synchronous loops.
+sources:
+- https://docs.atomicfi.com/reference/api
+- https://docs.atomicfi.com/reference/webhooks
+responseCodes:
+  throttled: 429
+limits:
+- name: Backend API Requests
+  scope: account
+  metric: requests
+  limit: see provider agreement
+  notes: Per-credential limits set by contract; API Key + Secret required.
+- name: Task Processing
+  scope: account
+  metric: tasks
+  limit: asynchronous / queued
+  notes: Tasks are queued and processed async; poll status or use webhooks.
+- name: Webhook Delivery
+  scope: endpoint
+  metric: deliveries
+  limit: retried up to 3 times, 30s apart
+  notes: Failed webhook deliveries are retried up to three times at 30-second intervals; manual replay available.
+policies:
+- name: Server-Side Credentials
+  description: API Key and Secret must be used from a backend service, never exposed to client-side apps; clients use short-lived public tokens instead.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+- name: Async by Design
+  description: Prefer webhooks (task-status-updated, payroll-data-fetched) over aggressive polling to stay within limits.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

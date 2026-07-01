@@ -1,0 +1,95 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Atomic
+providerId: atomic-fi
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Fintech
+- Payroll
+- Financial Connectivity
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Atomic spend. Atomic is sold as an enterprise, contracted
+  platform rather than transparent usage-based pricing, so cost is typically
+  governed by a negotiated agreement scoped to the products used (Deposit,
+  Verify, PayLink), the volume of connections/tasks, and ongoing monitoring
+  of linked accounts. Cost drivers to allocate and track internally are
+  successful connections, completed tasks per product, and monitored linked
+  accounts. Exact rates are not public and must come from the contract.
+notes: >-
+  Because Atomic pricing is quote-based, meters below are the internal usage
+  signals to instrument for allocation and showback, not published billing
+  units. Reconcile against your Atomic agreement.
+sources:
+- https://atomicfi.com
+- https://docs.atomicfi.com
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Atomic
+serviceCategory: Financial Services
+billingModel:
+  pricingCategory: Contracted
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+focusColumns:
+  ServiceName: Atomic
+  ServiceCategory: Financial Services
+  ProviderName: Atomic
+  PublisherName: Atomic
+  InvoiceIssuerName: Atomic
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Contracted
+meters:
+- name: completed_tasks
+  description: Tasks completed, broken out by product (deposit, verify, tax).
+  unit: tasks
+  aggregation: sum
+  dimensions:
+  - account
+  - product
+- name: successful_connections
+  description: Successful user-permissioned connections to payroll/HR/merchant systems.
+  unit: connections
+  aggregation: sum
+  dimensions:
+  - account
+  - product
+- name: monitored_linked_accounts
+  description: Linked accounts kept under ongoing monitoring for data refresh.
+  unit: accounts
+  aggregation: sum
+  dimensions:
+  - account
+- name: payroll_data_pulls
+  description: Payroll data retrievals (deposit-accounts, employment, identity, income, statements, timesheets, taxes).
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+  - dataType
+principles:
+- name: Visibility
+  description: Instrument completed tasks and successful connections per product; reconcile against the Atomic invoice.
+- name: Allocation
+  description: Tag Atomic usage by internal team/workflow using your user identifiers and metadata passed to Transact.
+- name: Optimization
+  description: End monitoring on accounts you no longer need; reuse linked accounts via task-workflow/from-linked-account instead of re-authenticating.
+- name: Accountability
+  description: Assign owners per product line (Deposit, Verify, PayLink); review connection and task volume against contract commitments.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

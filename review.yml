@@ -1,0 +1,96 @@
+aid: atomic-fi
+name: Atomic
+review:
+  question: Does Atomic expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-01'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    Atomic's real-time surface is outbound HTTP webhooks formatted as
+    CloudEvents (binary content mode), not a WebSocket or SSE stream from
+    the client's perspective. No AsyncAPI document was authored because the
+    event delivery is a provider-to-consumer HTTP callback pattern rather
+    than a persistent bidirectional or SSE transport initiated by the client.
+findings:
+  summary: |
+    Atomic does not publish a documented public WebSocket API. The UserLink
+    and PayLink platform is a REST (HTTPS) API under
+    https://api.atomicfi.com (sandbox: https://sandbox-api.atomicfi.com;
+    PCI card data: https://pci.atomicfi.com). Backend calls authenticate with
+    x-api-key + x-api-secret; client-side flows use a short-lived
+    publicToken via the embedded Transact SDK. Tasks are asynchronous: the
+    consumer polls task status or receives outbound webhook notifications.
+    Those webhooks are HTTP POST callbacks conforming to CloudEvents 1.0
+    (ce-source com.atomicfi), retried up to three times at 30-second
+    intervals. No ws:// or wss:// endpoint is documented.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.atomicfi.com
+      documented: true
+    - protocol: REST
+      scheme: https
+      baseURL: https://pci.atomicfi.com
+      documented: true
+      note: PCI host for PayLink card data.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Outbound HTTP POST callbacks in CloudEvents 1.0 binary content mode; not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in Atomic's API, PayLink, or Transact SDK references as of the review date.
+  endpointsConfirmedRest:
+    - POST https://api.atomicfi.com/access-token
+    - PUT  https://api.atomicfi.com/access-token/{publicToken}/revoke
+    - POST https://api.atomicfi.com/company/search
+    - GET  https://api.atomicfi.com/company/list
+    - GET  https://api.atomicfi.com/company/{companyId}/details
+    - GET  https://api.atomicfi.com/task/{taskId}/details
+    - GET  https://api.atomicfi.com/task/{taskId}/status
+    - GET  https://api.atomicfi.com/task/{taskId}/file/{fileId}/generate-url
+    - POST https://api.atomicfi.com/task/prescreen
+    - POST https://api.atomicfi.com/task-workflow/from-linked-account
+    - GET  https://api.atomicfi.com/deposit-accounts/{identifier}
+    - GET  https://api.atomicfi.com/employment/{identifier}
+    - GET  https://api.atomicfi.com/identity/{identifier}
+    - GET  https://api.atomicfi.com/income/{identifier}
+    - GET  https://api.atomicfi.com/statements/{identifier}
+    - GET  https://api.atomicfi.com/timesheets/{identifier}
+    - GET  https://api.atomicfi.com/taxes/{identifier}
+    - GET  https://api.atomicfi.com/linked-account/list/{identifier}
+    - GET  https://api.atomicfi.com/pay-link/actions-for-company/{companyId}
+    - GET  https://api.atomicfi.com/pay-link/accounts
+    - PUT  https://api.atomicfi.com/user
+    - GET  https://api.atomicfi.com/user/{identifier}/tasks
+    - PUT  https://api.atomicfi.com/user/{identifier}/end-monitoring
+    - GET  https://api.atomicfi.com/webhooks/endpoints
+    - POST https://api.atomicfi.com/webhooks/endpoints
+    - PUT  https://api.atomicfi.com/webhooks/endpoints/{id}
+    - DELETE https://api.atomicfi.com/webhooks/endpoints/{id}
+    - GET  https://api.atomicfi.com/secrets
+    - POST https://api.atomicfi.com/secrets
+    - DELETE https://api.atomicfi.com/secrets/{id}
+sources:
+  - url: https://docs.atomicfi.com/reference/api
+    type: APIReference
+    note: UserLink REST reference; all endpoints are HTTPS REST.
+  - url: https://docs.atomicfi.com/reference/transact-sdk
+    type: Documentation
+    note: Transact is an embedded front-end launched with a publicToken; no WebSocket.
+  - url: https://docs.atomicfi.com/paylink/reference/api
+    type: APIReference
+    note: PayLink REST reference; card data on https://pci.atomicfi.com.
+  - url: https://docs.atomicfi.com/reference/webhooks
+    type: Documentation
+    note: Webhooks are outbound HTTP callbacks in CloudEvents 1.0, retried up to three times; not WebSocket.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Atomic's real-time delivery is an
+    outbound CloudEvents HTTP webhook pattern, which is captured as a
+    Webhooks API entry and documented in the transports list rather than as
+    an AsyncAPI document.

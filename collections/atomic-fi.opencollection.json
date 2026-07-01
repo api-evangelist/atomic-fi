@@ -1,0 +1,154 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Atomic API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "apikey": [
+        { "key": "key", "value": "x-api-key" },
+        { "key": "value", "value": "{{apiKey}}" },
+        { "key": "in", "value": "header" }
+      ]
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Access Tokens", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create an access token", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.atomicfi.com/access-token",
+            "body": { "type": "json", "data": "{\n  \"identifier\": \"<string>\",\n  \"tokenLifetime\": 86400\n}" }
+          },
+          "docs": "Exchanges your API Key and Secret for a publicToken used to initialize the Transact SDK."
+        },
+        {
+          "info": { "name": "Revoke an access token", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.atomicfi.com/access-token/:publicToken/revoke"
+          },
+          "docs": "Invalidates an existing publicToken."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Company", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Search companies", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.atomicfi.com/company/search",
+            "body": { "type": "json", "data": "{\n  \"query\": \"<string>\",\n  \"product\": \"deposit\",\n  \"scopes\": [\"user-link\"]\n}" }
+          },
+          "docs": "Find employers or merchants supported for a product."
+        },
+        {
+          "info": { "name": "List companies", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/company/list?product=deposit&scope=user-link&limit=100&skip=0"
+          },
+          "docs": "List companies matching filters."
+        },
+        {
+          "info": { "name": "Get company details", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/company/:companyId/details"
+          },
+          "docs": "Full company metadata including connector capabilities."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Tasks", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get task details", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.atomicfi.com/task/:taskId/details" },
+          "docs": "Complete task object."
+        },
+        {
+          "info": { "name": "Get task status", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.atomicfi.com/task/:taskId/status" },
+          "docs": "Task status: queued, processing, completed, or failed."
+        },
+        {
+          "info": { "name": "Generate file URL", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.atomicfi.com/task/:taskId/file/:fileId/generate-url" },
+          "docs": "Presigned URL for a task-produced file."
+        },
+        {
+          "info": { "name": "Prescreen a task", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.atomicfi.com/task/prescreen",
+            "body": { "type": "json", "data": "{\n  \"company\": { \"name\": \"<string>\" },\n  \"product\": \"verify\"\n}" }
+          },
+          "docs": "Confidence signal on whether a company can be connected (beta)."
+        },
+        {
+          "info": { "name": "Start task workflow from linked account", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.atomicfi.com/task-workflow/from-linked-account",
+            "body": { "type": "json", "data": "{\n  \"linkedAccount\": \"<string>\",\n  \"tasks\": [\n    { \"operation\": \"deposit\", \"onComplete\": \"finish\", \"distribution\": { \"type\": \"total\", \"amount\": 100 } }\n  ]\n}" }
+          },
+          "docs": "Run tasks against an already-connected linked account."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Data", "type": "folder" },
+      "items": [
+        { "info": { "name": "Get deposit accounts", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/deposit-accounts/:identifier" }, "docs": "Deposit accounts on file." },
+        { "info": { "name": "Get employment", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/employment/:identifier" }, "docs": "Employment data." },
+        { "info": { "name": "Get identity", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/identity/:identifier" }, "docs": "Identity data." },
+        { "info": { "name": "Get income", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/income/:identifier" }, "docs": "Income data." },
+        { "info": { "name": "Get statements", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/statements/:identifier?limit=10" }, "docs": "Paystubs." },
+        { "info": { "name": "Get timesheets", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/timesheets/:identifier" }, "docs": "Timesheets." },
+        { "info": { "name": "Get taxes", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/taxes/:identifier" }, "docs": "W-2 / 1099 tax forms." },
+        { "info": { "name": "List linked accounts", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/linked-account/list/:identifier" }, "docs": "Connected linked accounts for a user." }
+      ]
+    },
+    {
+      "info": { "name": "PayLink", "type": "folder" },
+      "items": [
+        { "info": { "name": "Actions for company", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/pay-link/actions-for-company/:companyId" }, "docs": "Available PayLink actions for a merchant." },
+        { "info": { "name": "Get accounts", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/pay-link/accounts" }, "docs": "User's connected PayLink accounts." }
+      ]
+    },
+    {
+      "info": { "name": "Users", "type": "folder" },
+      "items": [
+        { "info": { "name": "Update user", "type": "http" }, "http": { "method": "PUT", "url": "https://api.atomicfi.com/user", "body": { "type": "json", "data": "{\n  \"identifier\": \"<string>\",\n  \"data\": { \"bankAccounts\": [], \"cards\": [] }\n}" } }, "docs": "Store destination bank accounts or cards for a task workflow." },
+        { "info": { "name": "Get user tasks", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/user/:identifier/tasks?status=completed&payrollDataAvailable=true" }, "docs": "Tasks for a user." },
+        { "info": { "name": "End monitoring", "type": "http" }, "http": { "method": "PUT", "url": "https://api.atomicfi.com/user/:identifier/end-monitoring" }, "docs": "Stop monitoring a user's linked accounts." }
+      ]
+    },
+    {
+      "info": { "name": "Webhooks", "type": "folder" },
+      "items": [
+        { "info": { "name": "List webhook endpoints", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/webhooks/endpoints" }, "docs": "List webhook endpoints." },
+        { "info": { "name": "Create webhook endpoint", "type": "http" }, "http": { "method": "POST", "url": "https://api.atomicfi.com/webhooks/endpoints", "body": { "type": "json", "data": "{\n  \"url\": \"https://your-endpoint.com/webhooks\",\n  \"secretId\": \"<string>\",\n  \"eventTypes\": [\"task-status-updated\"]\n}" } }, "docs": "Create a webhook endpoint." },
+        { "info": { "name": "Update webhook endpoint", "type": "http" }, "http": { "method": "PUT", "url": "https://api.atomicfi.com/webhooks/endpoints/:id" }, "docs": "Update a webhook endpoint." },
+        { "info": { "name": "Delete webhook endpoint", "type": "http" }, "http": { "method": "DELETE", "url": "https://api.atomicfi.com/webhooks/endpoints/:id" }, "docs": "Delete a webhook endpoint." }
+      ]
+    },
+    {
+      "info": { "name": "Secrets", "type": "folder" },
+      "items": [
+        { "info": { "name": "List secrets", "type": "http" }, "http": { "method": "GET", "url": "https://api.atomicfi.com/secrets" }, "docs": "List signing secrets." },
+        { "info": { "name": "Create secret", "type": "http" }, "http": { "method": "POST", "url": "https://api.atomicfi.com/secrets", "body": { "type": "json", "data": "{\n  \"name\": \"<string>\"\n}" } }, "docs": "Create a signing secret." },
+        { "info": { "name": "Delete secret", "type": "http" }, "http": { "method": "DELETE", "url": "https://api.atomicfi.com/secrets/:id" }, "docs": "Delete a signing secret." }
+      ]
+    }
+  ]
+}

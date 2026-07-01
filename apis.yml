@@ -1,0 +1,199 @@
+aid: atomic-fi
+url: https://raw.githubusercontent.com/api-evangelist/atomic-fi/refs/heads/main/apis.yml
+name: Atomic
+kind: company
+description: Atomic is a payroll and financial connectivity platform. Through user-permissioned
+  access to payroll, HR, and merchant accounts, Atomic lets applications switch direct
+  deposit, verify income and employment, retrieve payroll data, and update payment
+  methods on file. The Transact SDK is an embedded, hosted front-end that drives these
+  workflows on top of Atomic's backend REST API.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Fintech
+- Payroll
+- Direct Deposit
+- Income Verification
+- Employment Verification
+- Financial Connectivity
+- Embedded Finance
+created: '2026-07-01'
+modified: '2026-07-01'
+specificationVersion: '0.19'
+apis:
+- aid: atomic-fi:atomic-fi-access-tokens-api
+  name: Atomic Access Tokens API
+  tags:
+  - Access Tokens
+  - Authentication
+  - Public Token
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.atomicfi.com/reference/api
+  baseURL: https://api.atomicfi.com
+  properties:
+  - url: https://docs.atomicfi.com/reference/api
+    type: Documentation
+  - url: https://docs.atomicfi.com/reference/api
+    type: APIReference
+  - url: openapi/atomic-fi-openapi.yml
+    type: OpenAPI
+  - url: collections/atomic-fi.postman_collection.json
+    type: PostmanCollection
+  - url: collections/atomic-fi.opencollection.json
+    type: OpenCollection
+  description: Exchanges your API Key and Secret for a short-lived publicToken that
+    initializes the Transact SDK on the client. Includes creating and revoking access
+    tokens, called from your backend so credentials never reach the browser.
+- aid: atomic-fi:atomic-fi-transact-sdk
+  name: Atomic Transact SDK
+  tags:
+  - Transact
+  - SDK
+  - Embedded
+  - Front End
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.atomicfi.com/reference/transact-sdk
+  baseURL: https://api.atomicfi.com
+  properties:
+  - url: https://docs.atomicfi.com/reference/transact-sdk
+    type: Documentation
+  - url: openapi/atomic-fi-openapi.yml
+    type: OpenAPI
+  description: Embedded, hosted front-end (Browser, iOS, Android, React Native, Flutter,
+    Capacitor, WebView) launched with Atomic.transact() and a publicToken. It runs
+    deposit, verify, and tax task workflows, handling user authentication and consent,
+    and emits client-side events (onFinish, onClose, onInteraction, onTaskStatusUpdate)
+    over Atomic's backend API.
+- aid: atomic-fi:atomic-fi-tasks-api
+  name: Atomic Tasks API
+  tags:
+  - Tasks
+  - Task Workflow
+  - Status
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.atomicfi.com/reference/api
+  baseURL: https://api.atomicfi.com
+  properties:
+  - url: https://docs.atomicfi.com/reference/api
+    type: Documentation
+  - url: openapi/atomic-fi-openapi.yml
+    type: OpenAPI
+  - url: collections/atomic-fi.postman_collection.json
+    type: PostmanCollection
+  - url: collections/atomic-fi.opencollection.json
+    type: OpenCollection
+  description: Retrieves task details and status, generates presigned file URLs, runs
+    task prescreen confidence checks, and starts task workflows from an existing linked
+    account. Tasks are the unit of work behind deposit, verify, and tax operations.
+- aid: atomic-fi:atomic-fi-deposit-api
+  name: Atomic Deposit API
+  tags:
+  - Deposit
+  - Direct Deposit Switch
+  - Distribution
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.atomicfi.com/products/deposit/implementation
+  baseURL: https://api.atomicfi.com
+  properties:
+  - url: https://docs.atomicfi.com/products/deposit/implementation
+    type: Documentation
+  - url: openapi/atomic-fi-openapi.yml
+    type: OpenAPI
+  description: Switches a user's direct deposit at their payroll or HR provider, supporting
+    total, fixed, and percent distribution splits. Surfaced through the deposit task
+    operation and exposes the user's current deposit accounts on file.
+- aid: atomic-fi:atomic-fi-verify-api
+  name: Atomic Verify API
+  tags:
+  - Verify
+  - Income
+  - Employment
+  - Identity
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.atomicfi.com/products/verify/implementation
+  baseURL: https://api.atomicfi.com
+  properties:
+  - url: https://docs.atomicfi.com/products/verify/implementation
+    type: Documentation
+  - url: openapi/atomic-fi-openapi.yml
+    type: OpenAPI
+  description: Verifies income and employment via the verify task operation, returning
+    employment status, income (annual/hourly, pay cycle, next pay date), identity,
+    statements/paystubs, timesheets, and taxes (W-2 / 1099) pulled from the connected
+    payroll system.
+- aid: atomic-fi:atomic-fi-paylink-api
+  name: Atomic PayLink API
+  tags:
+  - PayLink
+  - Manage Payments
+  - Cards on File
+  - Subscriptions
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.atomicfi.com/paylink/reference/api
+  baseURL: https://api.atomicfi.com
+  properties:
+  - url: https://docs.atomicfi.com/paylink/reference/api
+    type: Documentation
+  - url: https://docs.atomicfi.com/paylink/reference/api
+    type: APIReference
+  - url: openapi/atomic-fi-openapi.yml
+    type: OpenAPI
+  description: User-permissioned access into merchants and subscription services to
+    read and update payment methods on file, and to run account actions such as pausing
+    or canceling a plan. Card data flows through a dedicated PCI host (pci.atomicfi.com).
+- aid: atomic-fi:atomic-fi-data-api
+  name: Atomic Data & Transactions API
+  tags:
+  - Data
+  - Payroll Data
+  - Statements
+  - Linked Accounts
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.atomicfi.com/reference/api
+  baseURL: https://api.atomicfi.com
+  properties:
+  - url: https://docs.atomicfi.com/reference/api
+    type: Documentation
+  - url: openapi/atomic-fi-openapi.yml
+    type: OpenAPI
+  - url: collections/atomic-fi.postman_collection.json
+    type: PostmanCollection
+  - url: collections/atomic-fi.opencollection.json
+    type: OpenCollection
+  description: Retrieves payroll data by user identifier - deposit accounts, employment,
+    identity, income, statements, timesheets, and taxes - plus linked-account listing
+    and user/monitoring management for ongoing connections.
+- aid: atomic-fi:atomic-fi-webhooks-api
+  name: Atomic Webhooks API
+  tags:
+  - Webhooks
+  - Events
+  - CloudEvents
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.atomicfi.com/reference/webhooks
+  baseURL: https://api.atomicfi.com
+  properties:
+  - url: https://docs.atomicfi.com/reference/webhooks
+    type: Documentation
+  - url: openapi/atomic-fi-openapi.yml
+    type: OpenAPI
+  description: Manages webhook endpoints and signing secrets, and delivers real-time
+    CloudEvents-formatted notifications such as task-status-updated, payroll-data-fetched,
+    and the *-synced data events, with retries and manual replay.
+common:
+- type: GitHubOrganization
+  url: https://github.com/atomicfi
+- type: LinkedIn
+  url: https://www.linkedin.com/company/atomicfi
+- type: Website
+  url: https://atomicfi.com
+- type: Documentation
+  url: https://docs.atomicfi.com
+- type: Plans
+  url: plans/atomic-fi-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/atomic-fi-rate-limits.yml
+- type: FinOps
+  url: finops/atomic-fi-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

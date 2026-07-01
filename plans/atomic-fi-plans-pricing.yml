@@ -1,0 +1,81 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Atomic
+providerId: atomic-fi
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Fintech
+- Payroll
+- Direct Deposit
+- Income Verification
+- Financial Connectivity
+- Plans
+description: >-
+  Atomic does not publish public self-serve pricing. Access to the UserLink
+  and PayLink APIs and the Transact SDK is sold as an enterprise, contracted
+  engagement negotiated with Atomic's sales team. A free sandbox
+  (sandbox-api.atomicfi.com) is available for development and integration
+  testing. Production pricing is quote-based and typically scoped by product
+  (Deposit, Verify, PayLink), connection volume, and monitoring.
+notes: >-
+  No public price list exists. Contact Atomic sales to obtain production
+  credentials and negotiated terms; sandbox access is free for building.
+  Verify all commercial terms directly with Atomic during reconciliation.
+sources:
+- https://atomicfi.com
+- https://docs.atomicfi.com
+- https://console.atomicfi.com/signup
+plans:
+- id: atomic-fi-sandbox
+  name: Sandbox
+  type: free
+  description: >-
+    Free sandbox environment for building and testing against
+    sandbox-api.atomicfi.com and the Transact SDK before going live.
+  entries:
+  - label: Sandbox Access
+    name: sandbox
+    type: flat
+    metric: environment
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0
+    userMultiplied: false
+  elements:
+  - name: Access Tokens
+  - name: Transact SDK
+  - name: Company Search
+  - name: Simulated Tasks
+- id: atomic-fi-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Production access to UserLink (Deposit, Verify) and PayLink, priced by
+    contract based on products used, connection/task volume, and ongoing
+    monitoring. Contact Atomic sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Deposit (Direct Deposit Switch)
+  - name: Verify (Income & Employment)
+  - name: PayLink (Manage Payments)
+  - name: Payroll Data Retrieval
+  - name: Linked Account Monitoring
+  - name: Webhooks
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

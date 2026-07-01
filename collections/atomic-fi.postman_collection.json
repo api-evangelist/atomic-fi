@@ -1,0 +1,167 @@
+{
+  "info": {
+    "_postman_id": "b1a2c3d4-e5f6-47a8-9b0c-1d2e3f4a5b6c",
+    "name": "Atomic API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Representative Postman collection for Atomic's UserLink and PayLink APIs. Backend calls authenticate with x-api-key and x-api-secret headers; client flows use a publicToken via the Transact SDK. Authored by API Evangelist from public docs.",
+      "type": "text/plain"
+    }
+  },
+  "item": [
+    {
+      "name": "Access Tokens",
+      "item": [
+        {
+          "name": "Create an access token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/access-token", "host": ["{{baseUrl}}"], "path": ["access-token"] },
+            "body": { "mode": "raw", "raw": "{\n  \"identifier\": \"<string>\",\n  \"tokenLifetime\": 86400\n}", "options": { "raw": { "language": "json" } } }
+          },
+          "response": []
+        },
+        {
+          "name": "Revoke an access token",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/access-token/:publicToken/revoke", "host": ["{{baseUrl}}"], "path": ["access-token", ":publicToken", "revoke"], "variable": [{ "key": "publicToken", "value": "<string>" }] }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Company",
+      "item": [
+        {
+          "name": "Search companies",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/company/search", "host": ["{{baseUrl}}"], "path": ["company", "search"] },
+            "body": { "mode": "raw", "raw": "{\n  \"query\": \"<string>\",\n  \"product\": \"deposit\",\n  \"scopes\": [\"user-link\"]\n}", "options": { "raw": { "language": "json" } } }
+          },
+          "response": []
+        },
+        {
+          "name": "List companies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/company/list?product=deposit&scope=user-link&limit=100&skip=0", "host": ["{{baseUrl}}"], "path": ["company", "list"], "query": [{ "key": "product", "value": "deposit" }, { "key": "scope", "value": "user-link" }, { "key": "limit", "value": "100" }, { "key": "skip", "value": "0" }] }
+          },
+          "response": []
+        },
+        {
+          "name": "Get company details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/company/:companyId/details", "host": ["{{baseUrl}}"], "path": ["company", ":companyId", "details"], "variable": [{ "key": "companyId", "value": "<string>" }] }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "Get task details",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/task/:taskId/details", "host": ["{{baseUrl}}"], "path": ["task", ":taskId", "details"], "variable": [{ "key": "taskId", "value": "<string>" }] } },
+          "response": []
+        },
+        {
+          "name": "Get task status",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/task/:taskId/status", "host": ["{{baseUrl}}"], "path": ["task", ":taskId", "status"], "variable": [{ "key": "taskId", "value": "<string>" }] } },
+          "response": []
+        },
+        {
+          "name": "Generate file URL",
+          "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/task/:taskId/file/:fileId/generate-url", "host": ["{{baseUrl}}"], "path": ["task", ":taskId", "file", ":fileId", "generate-url"], "variable": [{ "key": "taskId", "value": "<string>" }, { "key": "fileId", "value": "<string>" }] } },
+          "response": []
+        },
+        {
+          "name": "Prescreen a task",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/task/prescreen", "host": ["{{baseUrl}}"], "path": ["task", "prescreen"] },
+            "body": { "mode": "raw", "raw": "{\n  \"company\": { \"name\": \"<string>\" },\n  \"product\": \"verify\"\n}", "options": { "raw": { "language": "json" } } }
+          },
+          "response": []
+        },
+        {
+          "name": "Start task workflow from linked account",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/task-workflow/from-linked-account", "host": ["{{baseUrl}}"], "path": ["task-workflow", "from-linked-account"] },
+            "body": { "mode": "raw", "raw": "{\n  \"linkedAccount\": \"<string>\",\n  \"tasks\": [\n    { \"operation\": \"deposit\", \"onComplete\": \"finish\", \"distribution\": { \"type\": \"total\", \"amount\": 100 } }\n  ]\n}", "options": { "raw": { "language": "json" } } }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Data",
+      "item": [
+        { "name": "Get deposit accounts", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/deposit-accounts/:identifier", "host": ["{{baseUrl}}"], "path": ["deposit-accounts", ":identifier"], "variable": [{ "key": "identifier", "value": "<string>" }] } }, "response": [] },
+        { "name": "Get employment", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/employment/:identifier", "host": ["{{baseUrl}}"], "path": ["employment", ":identifier"], "variable": [{ "key": "identifier", "value": "<string>" }] } }, "response": [] },
+        { "name": "Get identity", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/identity/:identifier", "host": ["{{baseUrl}}"], "path": ["identity", ":identifier"], "variable": [{ "key": "identifier", "value": "<string>" }] } }, "response": [] },
+        { "name": "Get income", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/income/:identifier", "host": ["{{baseUrl}}"], "path": ["income", ":identifier"], "variable": [{ "key": "identifier", "value": "<string>" }] } }, "response": [] },
+        { "name": "Get statements", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/statements/:identifier?limit=10", "host": ["{{baseUrl}}"], "path": ["statements", ":identifier"], "query": [{ "key": "limit", "value": "10" }], "variable": [{ "key": "identifier", "value": "<string>" }] } }, "response": [] },
+        { "name": "Get timesheets", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/timesheets/:identifier", "host": ["{{baseUrl}}"], "path": ["timesheets", ":identifier"], "variable": [{ "key": "identifier", "value": "<string>" }] } }, "response": [] },
+        { "name": "Get taxes", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/taxes/:identifier", "host": ["{{baseUrl}}"], "path": ["taxes", ":identifier"], "variable": [{ "key": "identifier", "value": "<string>" }] } }, "response": [] },
+        { "name": "List linked accounts", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/linked-account/list/:identifier", "host": ["{{baseUrl}}"], "path": ["linked-account", "list", ":identifier"], "variable": [{ "key": "identifier", "value": "<string>" }] } }, "response": [] }
+      ]
+    },
+    {
+      "name": "PayLink",
+      "item": [
+        { "name": "Actions for company", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/pay-link/actions-for-company/:companyId", "host": ["{{baseUrl}}"], "path": ["pay-link", "actions-for-company", ":companyId"], "variable": [{ "key": "companyId", "value": "<string>" }] } }, "response": [] },
+        { "name": "Get accounts", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/pay-link/accounts", "host": ["{{baseUrl}}"], "path": ["pay-link", "accounts"] } }, "response": [] }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        { "name": "Update user", "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{baseUrl}}/user", "host": ["{{baseUrl}}"], "path": ["user"] }, "body": { "mode": "raw", "raw": "{\n  \"identifier\": \"<string>\",\n  \"data\": { \"bankAccounts\": [], \"cards\": [] }\n}", "options": { "raw": { "language": "json" } } } }, "response": [] },
+        { "name": "Get user tasks", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/user/:identifier/tasks?status=completed&payrollDataAvailable=true", "host": ["{{baseUrl}}"], "path": ["user", ":identifier", "tasks"], "query": [{ "key": "status", "value": "completed" }, { "key": "payrollDataAvailable", "value": "true" }], "variable": [{ "key": "identifier", "value": "<string>" }] } }, "response": [] },
+        { "name": "End monitoring", "request": { "method": "PUT", "header": [], "url": { "raw": "{{baseUrl}}/user/:identifier/end-monitoring", "host": ["{{baseUrl}}"], "path": ["user", ":identifier", "end-monitoring"], "variable": [{ "key": "identifier", "value": "<string>" }] } }, "response": [] }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        { "name": "List webhook endpoints", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/webhooks/endpoints", "host": ["{{baseUrl}}"], "path": ["webhooks", "endpoints"] } }, "response": [] },
+        { "name": "Create webhook endpoint", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{baseUrl}}/webhooks/endpoints", "host": ["{{baseUrl}}"], "path": ["webhooks", "endpoints"] }, "body": { "mode": "raw", "raw": "{\n  \"url\": \"https://your-endpoint.com/webhooks\",\n  \"secretId\": \"<string>\",\n  \"eventTypes\": [\"task-status-updated\"]\n}", "options": { "raw": { "language": "json" } } } }, "response": [] },
+        { "name": "Update webhook endpoint", "request": { "method": "PUT", "header": [], "url": { "raw": "{{baseUrl}}/webhooks/endpoints/:id", "host": ["{{baseUrl}}"], "path": ["webhooks", "endpoints", ":id"], "variable": [{ "key": "id", "value": "<string>" }] } }, "response": [] },
+        { "name": "Delete webhook endpoint", "request": { "method": "DELETE", "header": [], "url": { "raw": "{{baseUrl}}/webhooks/endpoints/:id", "host": ["{{baseUrl}}"], "path": ["webhooks", "endpoints", ":id"], "variable": [{ "key": "id", "value": "<string>" }] } }, "response": [] }
+      ]
+    },
+    {
+      "name": "Secrets",
+      "item": [
+        { "name": "List secrets", "request": { "method": "GET", "header": [], "url": { "raw": "{{baseUrl}}/secrets", "host": ["{{baseUrl}}"], "path": ["secrets"] } }, "response": [] },
+        { "name": "Create secret", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{baseUrl}}/secrets", "host": ["{{baseUrl}}"], "path": ["secrets"] }, "body": { "mode": "raw", "raw": "{\n  \"name\": \"<string>\"\n}", "options": { "raw": { "language": "json" } } } }, "response": [] },
+        { "name": "Delete secret", "request": { "method": "DELETE", "header": [], "url": { "raw": "{{baseUrl}}/secrets/:id", "host": ["{{baseUrl}}"], "path": ["secrets", ":id"], "variable": [{ "key": "id", "value": "<string>" }] } }, "response": [] }
+      ]
+    }
+  ],
+  "variable": [
+    { "type": "string", "value": "https://api.atomicfi.com", "key": "baseUrl" }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "x-api-key" },
+      { "key": "value", "value": "{{apiKey}}" },
+      { "key": "in", "value": "header" }
+    ]
+  },
+  "event": []
+}
