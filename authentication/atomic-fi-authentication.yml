@@ -1,0 +1,24 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/atomic-fi-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  description: API Key sent in the x-api-key header, paired with the x-api-secret header. Used
+    for backend-to-backend calls.
+  sources:
+  - openapi/atomic-fi-openapi.yml
+- name: PublicTokenAuth
+  type: apiKey
+  in: header
+  parameter: x-public-token
+  description: Public token for permitted client-side requests.
+  sources:
+  - openapi/atomic-fi-openapi.yml

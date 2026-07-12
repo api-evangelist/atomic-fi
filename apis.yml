@@ -180,6 +180,10 @@ apis:
     CloudEvents-formatted notifications such as task-status-updated, payroll-data-fetched,
     and the *-synced data events, with retries and manual replay.
 common:
+- type: DomainSecurity
+  url: security/atomic-fi-domain-security.yml
+- type: Authentication
+  url: authentication/atomic-fi-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/atomicfi
 - type: LinkedIn
