@@ -1,0 +1,167 @@
+openapi: 3.0.3
+info:
+  title: Atomic Access Tokens Data API
+  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink). Atomic lets applications switch direct deposit, verify income and employment, retrieve payroll data, and update payment methods on file through user-permissioned access. The Transact SDK is an embedded, hosted front-end launched with a publicToken that drives deposit, verify, and tax task workflows on top of these endpoints. This is a faithful, non-exhaustive representation authored by API Evangelist from public documentation, not an official Atomic artifact.
+  termsOfService: https://atomicfi.com/legal
+  contact:
+    name: Atomic Support
+    url: https://docs.atomicfi.com
+  version: '1.0'
+servers:
+- url: https://api.atomicfi.com
+  description: Production
+- url: https://sandbox-api.atomicfi.com
+  description: Sandbox
+- url: https://pci.atomicfi.com
+  description: Production PCI host (PayLink card data)
+- url: https://sandbox-pci.atomicfi.com
+  description: Sandbox PCI host (PayLink card data)
+security:
+- ApiKeyAuth: []
+tags:
+- name: Data
+paths:
+  /deposit-accounts/{identifier}:
+    get:
+      operationId: getDepositAccounts
+      tags:
+      - Data
+      summary: Get deposit accounts
+      parameters:
+      - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /employment/{identifier}:
+    get:
+      operationId: getEmployment
+      tags:
+      - Data
+      summary: Get employment data
+      parameters:
+      - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /identity/{identifier}:
+    get:
+      operationId: getIdentity
+      tags:
+      - Data
+      summary: Get identity data
+      parameters:
+      - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /income/{identifier}:
+    get:
+      operationId: getIncome
+      tags:
+      - Data
+      summary: Get income data
+      parameters:
+      - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /statements/{identifier}:
+    get:
+      operationId: getStatements
+      tags:
+      - Data
+      summary: Get statements (paystubs)
+      parameters:
+      - $ref: '#/components/parameters/IdentifierPath'
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /timesheets/{identifier}:
+    get:
+      operationId: getTimesheets
+      tags:
+      - Data
+      summary: Get timesheets
+      parameters:
+      - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /taxes/{identifier}:
+    get:
+      operationId: getTaxes
+      tags:
+      - Data
+      summary: Get taxes (W-2 / 1099)
+      parameters:
+      - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+components:
+  parameters:
+    IdentifierPath:
+      name: identifier
+      in: path
+      required: true
+      description: Your unique identifier for the end user.
+      schema:
+        type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key sent in the x-api-key header, paired with the x-api-secret header. Used for backend-to-backend calls.
+    PublicTokenAuth:
+      type: apiKey
+      in: header
+      name: x-public-token
+      description: Public token for permitted client-side requests.

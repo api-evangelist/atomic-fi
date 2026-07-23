@@ -1,0 +1,272 @@
+openapi: 3.0.3
+info:
+  title: Atomic Access Tokens Tasks API
+  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink). Atomic lets applications switch direct deposit, verify income and employment, retrieve payroll data, and update payment methods on file through user-permissioned access. The Transact SDK is an embedded, hosted front-end launched with a publicToken that drives deposit, verify, and tax task workflows on top of these endpoints. This is a faithful, non-exhaustive representation authored by API Evangelist from public documentation, not an official Atomic artifact.
+  termsOfService: https://atomicfi.com/legal
+  contact:
+    name: Atomic Support
+    url: https://docs.atomicfi.com
+  version: '1.0'
+servers:
+- url: https://api.atomicfi.com
+  description: Production
+- url: https://sandbox-api.atomicfi.com
+  description: Sandbox
+- url: https://pci.atomicfi.com
+  description: Production PCI host (PayLink card data)
+- url: https://sandbox-pci.atomicfi.com
+  description: Sandbox PCI host (PayLink card data)
+security:
+- ApiKeyAuth: []
+tags:
+- name: Tasks
+paths:
+  /task/{taskId}/details:
+    get:
+      operationId: getTaskDetails
+      tags:
+      - Tasks
+      summary: Get task details
+      parameters:
+      - $ref: '#/components/parameters/TaskIdPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /task/{taskId}/status:
+    get:
+      operationId: getTaskStatus
+      tags:
+      - Tasks
+      summary: Get task status
+      parameters:
+      - $ref: '#/components/parameters/TaskIdPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskStatusResponse'
+  /task/{taskId}/file/{fileId}/generate-url:
+    get:
+      operationId: generateTaskFileUrl
+      tags:
+      - Tasks
+      summary: Generate a presigned file URL
+      parameters:
+      - $ref: '#/components/parameters/TaskIdPath'
+      - name: fileId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+  /task/prescreen:
+    post:
+      operationId: prescreenTask
+      tags:
+      - Tasks
+      summary: Prescreen a task (beta)
+      description: Returns a confidence signal on whether a company can be connected for a product.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrescreenRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      confidence:
+                        type: string
+                        enum:
+                        - HIGH
+                        - LOW
+  /task-workflow/from-linked-account:
+    post:
+      operationId: createTaskWorkflowFromLinkedAccount
+      tags:
+      - Tasks
+      summary: Start a task workflow from a linked account
+      description: Runs deposit, verify, or tax tasks against an already-connected linked account without re-authenticating the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskWorkflowFromLinkedAccountRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskWorkflowResponse'
+components:
+  parameters:
+    TaskIdPath:
+      name: taskId
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
+    TaskWorkflowFromLinkedAccountRequest:
+      type: object
+      required:
+      - linkedAccount
+      - tasks
+      properties:
+        linkedAccount:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskDefinition'
+    TaskDefinition:
+      type: object
+      properties:
+        operation:
+          type: string
+          enum:
+          - deposit
+          - verify
+          - tax
+        onComplete:
+          type: string
+          enum:
+          - continue
+          - finish
+        onFail:
+          type: string
+          enum:
+          - continue
+          - finish
+        distribution:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - total
+              - fixed
+              - percent
+            amount:
+              type: number
+    Task:
+      type: object
+      properties:
+        _id:
+          type: string
+        status:
+          type: string
+          enum:
+          - queued
+          - processing
+          - completed
+          - failed
+        product:
+          type: string
+        authentication:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        payrollDataAvailable:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    TaskStatusResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            task:
+              type: object
+              properties:
+                createdAt:
+                  type: string
+                  format: date-time
+                status:
+                  type: string
+                  enum:
+                  - queued
+                  - processing
+                  - completed
+                  - failed
+                payrollDataAvailable:
+                  type: boolean
+                failReason:
+                  type: string
+    TaskWorkflowResponse:
+      type: object
+      properties:
+        task:
+          $ref: '#/components/schemas/Task'
+        taskWorkflow:
+          type: string
+    PrescreenRequest:
+      type: object
+      properties:
+        company:
+          type: object
+          properties:
+            name:
+              type: string
+            id:
+              type: string
+        product:
+          type: string
+          enum:
+          - deposit
+          - verify
+          - tax
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key sent in the x-api-key header, paired with the x-api-secret header. Used for backend-to-backend calls.
+    PublicTokenAuth:
+      type: apiKey
+      in: header
+      name: x-public-token
+      description: Public token for permitted client-side requests.

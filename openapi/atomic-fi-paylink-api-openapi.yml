@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  title: Atomic Access Tokens PayLink API
+  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink). Atomic lets applications switch direct deposit, verify income and employment, retrieve payroll data, and update payment methods on file through user-permissioned access. The Transact SDK is an embedded, hosted front-end launched with a publicToken that drives deposit, verify, and tax task workflows on top of these endpoints. This is a faithful, non-exhaustive representation authored by API Evangelist from public documentation, not an official Atomic artifact.
+  termsOfService: https://atomicfi.com/legal
+  contact:
+    name: Atomic Support
+    url: https://docs.atomicfi.com
+  version: '1.0'
+servers:
+- url: https://api.atomicfi.com
+  description: Production
+- url: https://sandbox-api.atomicfi.com
+  description: Sandbox
+- url: https://pci.atomicfi.com
+  description: Production PCI host (PayLink card data)
+- url: https://sandbox-pci.atomicfi.com
+  description: Sandbox PCI host (PayLink card data)
+security:
+- ApiKeyAuth: []
+tags:
+- name: PayLink
+paths:
+  /pay-link/actions-for-company/{companyId}:
+    get:
+      operationId: getPayLinkActionsForCompany
+      tags:
+      - PayLink
+      summary: List available PayLink actions for a company
+      parameters:
+      - name: companyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /pay-link/accounts:
+    get:
+      operationId: getPayLinkAccounts
+      tags:
+      - PayLink
+      summary: Retrieve a user's connected PayLink accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key sent in the x-api-key header, paired with the x-api-secret header. Used for backend-to-backend calls.
+    PublicTokenAuth:
+      type: apiKey
+      in: header
+      name: x-public-token
+      description: Public token for permitted client-side requests.

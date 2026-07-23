@@ -1,0 +1,183 @@
+openapi: 3.0.3
+info:
+  title: Atomic Access Tokens Linked Accounts API
+  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink). Atomic lets applications switch direct deposit, verify income and employment, retrieve payroll data, and update payment methods on file through user-permissioned access. The Transact SDK is an embedded, hosted front-end launched with a publicToken that drives deposit, verify, and tax task workflows on top of these endpoints. This is a faithful, non-exhaustive representation authored by API Evangelist from public documentation, not an official Atomic artifact.
+  termsOfService: https://atomicfi.com/legal
+  contact:
+    name: Atomic Support
+    url: https://docs.atomicfi.com
+  version: '1.0'
+servers:
+- url: https://api.atomicfi.com
+  description: Production
+- url: https://sandbox-api.atomicfi.com
+  description: Sandbox
+- url: https://pci.atomicfi.com
+  description: Production PCI host (PayLink card data)
+- url: https://sandbox-pci.atomicfi.com
+  description: Sandbox PCI host (PayLink card data)
+security:
+- ApiKeyAuth: []
+tags:
+- name: Linked Accounts
+paths:
+  /task-workflow/from-linked-account:
+    post:
+      operationId: createTaskWorkflowFromLinkedAccount
+      tags:
+      - Linked Accounts
+      summary: Start a task workflow from a linked account
+      description: Runs deposit, verify, or tax tasks against an already-connected linked account without re-authenticating the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskWorkflowFromLinkedAccountRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskWorkflowResponse'
+  /linked-account/list/{identifier}:
+    get:
+      operationId: listLinkedAccounts
+      tags:
+      - Linked Accounts
+      summary: List linked accounts
+      parameters:
+      - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LinkedAccount'
+components:
+  schemas:
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
+    TaskWorkflowFromLinkedAccountRequest:
+      type: object
+      required:
+      - linkedAccount
+      - tasks
+      properties:
+        linkedAccount:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskDefinition'
+    TaskDefinition:
+      type: object
+      properties:
+        operation:
+          type: string
+          enum:
+          - deposit
+          - verify
+          - tax
+        onComplete:
+          type: string
+          enum:
+          - continue
+          - finish
+        onFail:
+          type: string
+          enum:
+          - continue
+          - finish
+        distribution:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - total
+              - fixed
+              - percent
+            amount:
+              type: number
+    Task:
+      type: object
+      properties:
+        _id:
+          type: string
+        status:
+          type: string
+          enum:
+          - queued
+          - processing
+          - completed
+          - failed
+        product:
+          type: string
+        authentication:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        payrollDataAvailable:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    LinkedAccount:
+      type: object
+      properties:
+        _id:
+          type: string
+        valid:
+          type: boolean
+        company:
+          $ref: '#/components/schemas/Company'
+        lastSuccess:
+          type: string
+          format: date-time
+        lastFailure:
+          type: string
+          format: date-time
+    TaskWorkflowResponse:
+      type: object
+      properties:
+        task:
+          $ref: '#/components/schemas/Task'
+        taskWorkflow:
+          type: string
+  parameters:
+    IdentifierPath:
+      name: identifier
+      in: path
+      required: true
+      description: Your unique identifier for the end user.
+      schema:
+        type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key sent in the x-api-key header, paired with the x-api-secret header. Used for backend-to-backend calls.
+    PublicTokenAuth:
+      type: apiKey
+      in: header
+      name: x-public-token
+      description: Public token for permitted client-side requests.

@@ -1,0 +1,150 @@
+openapi: 3.0.3
+info:
+  title: Atomic Access Tokens Webhooks API
+  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink). Atomic lets applications switch direct deposit, verify income and employment, retrieve payroll data, and update payment methods on file through user-permissioned access. The Transact SDK is an embedded, hosted front-end launched with a publicToken that drives deposit, verify, and tax task workflows on top of these endpoints. This is a faithful, non-exhaustive representation authored by API Evangelist from public documentation, not an official Atomic artifact.
+  termsOfService: https://atomicfi.com/legal
+  contact:
+    name: Atomic Support
+    url: https://docs.atomicfi.com
+  version: '1.0'
+servers:
+- url: https://api.atomicfi.com
+  description: Production
+- url: https://sandbox-api.atomicfi.com
+  description: Sandbox
+- url: https://pci.atomicfi.com
+  description: Production PCI host (PayLink card data)
+- url: https://sandbox-pci.atomicfi.com
+  description: Sandbox PCI host (PayLink card data)
+security:
+- ApiKeyAuth: []
+tags:
+- name: Webhooks
+paths:
+  /webhooks/endpoints:
+    get:
+      operationId: listWebhookEndpoints
+      tags:
+      - Webhooks
+      summary: List webhook endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebhookEndpoint'
+    post:
+      operationId: createWebhookEndpoint
+      tags:
+      - Webhooks
+      summary: Create a webhook endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEndpointRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpoint'
+  /webhooks/endpoints/{id}:
+    put:
+      operationId: updateWebhookEndpoint
+      tags:
+      - Webhooks
+      summary: Update a webhook endpoint
+      parameters:
+      - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEndpointRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpoint'
+    delete:
+      operationId: deleteWebhookEndpoint
+      tags:
+      - Webhooks
+      summary: Delete a webhook endpoint
+      parameters:
+      - $ref: '#/components/parameters/IdPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+components:
+  parameters:
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    WebhookEndpoint:
+      type: object
+      properties:
+        _id:
+          type: string
+        url:
+          type: string
+          format: uri
+        eventTypes:
+          type: array
+          items:
+            type: string
+    WebhookEndpointRequest:
+      type: object
+      required:
+      - url
+      - eventTypes
+      properties:
+        url:
+          type: string
+          format: uri
+        secretId:
+          type: string
+        eventTypes:
+          type: array
+          items:
+            type: string
+          example:
+          - task-status-updated
+    SuccessResult:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            success:
+              type: boolean
+        success:
+          type: boolean
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API Key sent in the x-api-key header, paired with the x-api-secret header. Used for backend-to-backend calls.
+    PublicTokenAuth:
+      type: apiKey
+      in: header
+      name: x-public-token
+      description: Public token for permitted client-side requests.
