@@ -7,7 +7,20 @@ description: Atomic is a payroll and financial connectivity platform. Through us
   deposit, verify income and employment, retrieve payroll data, and update payment
   methods on file. The Transact SDK is an embedded, hosted front-end that drives these
   workflows on top of Atomic's backend REST API.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/atomic-fi.png
 tags:
 - Fintech
 - Payroll
@@ -22,163 +35,274 @@ specificationVersion: '0.19'
 apis:
 - aid: atomic-fi:atomic-fi-access-tokens-api
   name: Atomic Access Tokens API
+  description: The Access Tokens API from Atomic — 2 operation(s) for access tokens.
+  humanURL: https://docs.atomicfi.com/reference/api
+  baseURL: https://api.atomicfi.com
   tags:
   - Access Tokens
-  - Authentication
-  - Public Token
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  properties:
+  - type: OpenAPI
+    url: openapi/atomic-fi-access-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/reference/api
+  - type: PostmanCollection
+    url: collections/atomic-fi.postman_collection.json
+  - type: OpenCollection
+    url: collections/atomic-fi.opencollection.json
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/transact-sdk
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/deposit/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/verify/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/webhooks
+- aid: atomic-fi:atomic-fi-company-api
+  name: Atomic Company API
+  description: The Company API from Atomic — 3 operation(s) for company.
   humanURL: https://docs.atomicfi.com/reference/api
   baseURL: https://api.atomicfi.com
-  properties:
-  - url: https://docs.atomicfi.com/reference/api
-    type: Documentation
-  - url: https://docs.atomicfi.com/reference/api
-    type: APIReference
-  - url: openapi/atomic-fi-openapi.yml
-    type: OpenAPI
-  - url: collections/atomic-fi.postman_collection.json
-    type: PostmanCollection
-  - url: collections/atomic-fi.opencollection.json
-    type: OpenCollection
-  description: Exchanges your API Key and Secret for a short-lived publicToken that
-    initializes the Transact SDK on the client. Includes creating and revoking access
-    tokens, called from your backend so credentials never reach the browser.
-- aid: atomic-fi:atomic-fi-transact-sdk
-  name: Atomic Transact SDK
   tags:
-  - Transact
-  - SDK
-  - Embedded
-  - Front End
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.atomicfi.com/reference/transact-sdk
-  baseURL: https://api.atomicfi.com
+  - Company
   properties:
-  - url: https://docs.atomicfi.com/reference/transact-sdk
-    type: Documentation
-  - url: openapi/atomic-fi-openapi.yml
-    type: OpenAPI
-  description: Embedded, hosted front-end (Browser, iOS, Android, React Native, Flutter,
-    Capacitor, WebView) launched with Atomic.transact() and a publicToken. It runs
-    deposit, verify, and tax task workflows, handling user authentication and consent,
-    and emits client-side events (onFinish, onClose, onInteraction, onTaskStatusUpdate)
-    over Atomic's backend API.
-- aid: atomic-fi:atomic-fi-tasks-api
-  name: Atomic Tasks API
-  tags:
-  - Tasks
-  - Task Workflow
-  - Status
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.atomicfi.com/reference/api
-  baseURL: https://api.atomicfi.com
-  properties:
-  - url: https://docs.atomicfi.com/reference/api
-    type: Documentation
-  - url: openapi/atomic-fi-openapi.yml
-    type: OpenAPI
-  - url: collections/atomic-fi.postman_collection.json
-    type: PostmanCollection
-  - url: collections/atomic-fi.opencollection.json
-    type: OpenCollection
-  description: Retrieves task details and status, generates presigned file URLs, runs
-    task prescreen confidence checks, and starts task workflows from an existing linked
-    account. Tasks are the unit of work behind deposit, verify, and tax operations.
-- aid: atomic-fi:atomic-fi-deposit-api
-  name: Atomic Deposit API
-  tags:
-  - Deposit
-  - Direct Deposit Switch
-  - Distribution
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.atomicfi.com/products/deposit/implementation
-  baseURL: https://api.atomicfi.com
-  properties:
-  - url: https://docs.atomicfi.com/products/deposit/implementation
-    type: Documentation
-  - url: openapi/atomic-fi-openapi.yml
-    type: OpenAPI
-  description: Switches a user's direct deposit at their payroll or HR provider, supporting
-    total, fixed, and percent distribution splits. Surfaced through the deposit task
-    operation and exposes the user's current deposit accounts on file.
-- aid: atomic-fi:atomic-fi-verify-api
-  name: Atomic Verify API
-  tags:
-  - Verify
-  - Income
-  - Employment
-  - Identity
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.atomicfi.com/products/verify/implementation
-  baseURL: https://api.atomicfi.com
-  properties:
-  - url: https://docs.atomicfi.com/products/verify/implementation
-    type: Documentation
-  - url: openapi/atomic-fi-openapi.yml
-    type: OpenAPI
-  description: Verifies income and employment via the verify task operation, returning
-    employment status, income (annual/hourly, pay cycle, next pay date), identity,
-    statements/paystubs, timesheets, and taxes (W-2 / 1099) pulled from the connected
-    payroll system.
-- aid: atomic-fi:atomic-fi-paylink-api
-  name: Atomic PayLink API
-  tags:
-  - PayLink
-  - Manage Payments
-  - Cards on File
-  - Subscriptions
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.atomicfi.com/paylink/reference/api
-  baseURL: https://api.atomicfi.com
-  properties:
-  - url: https://docs.atomicfi.com/paylink/reference/api
-    type: Documentation
-  - url: https://docs.atomicfi.com/paylink/reference/api
-    type: APIReference
-  - url: openapi/atomic-fi-openapi.yml
-    type: OpenAPI
-  description: User-permissioned access into merchants and subscription services to
-    read and update payment methods on file, and to run account actions such as pausing
-    or canceling a plan. Card data flows through a dedicated PCI host (pci.atomicfi.com).
+  - type: OpenAPI
+    url: openapi/atomic-fi-company-api-openapi.yml
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/reference/api
+  - type: PostmanCollection
+    url: collections/atomic-fi.postman_collection.json
+  - type: OpenCollection
+    url: collections/atomic-fi.opencollection.json
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/transact-sdk
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/deposit/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/verify/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/webhooks
 - aid: atomic-fi:atomic-fi-data-api
-  name: Atomic Data & Transactions API
+  name: Atomic Data API
+  description: The Data API from Atomic — 7 operation(s) for data.
+  humanURL: https://docs.atomicfi.com/reference/api
+  baseURL: https://api.atomicfi.com
   tags:
   - Data
-  - Payroll Data
-  - Statements
-  - Linked Accounts
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  properties:
+  - type: OpenAPI
+    url: openapi/atomic-fi-data-api-openapi.yml
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/reference/api
+  - type: PostmanCollection
+    url: collections/atomic-fi.postman_collection.json
+  - type: OpenCollection
+    url: collections/atomic-fi.opencollection.json
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/transact-sdk
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/deposit/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/verify/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/webhooks
+- aid: atomic-fi:atomic-fi-linked-accounts-api
+  name: Atomic Linked Accounts API
+  description: The Linked Accounts API from Atomic — 2 operation(s) for linked accounts.
   humanURL: https://docs.atomicfi.com/reference/api
   baseURL: https://api.atomicfi.com
+  tags:
+  - Linked Accounts
   properties:
-  - url: https://docs.atomicfi.com/reference/api
-    type: Documentation
-  - url: openapi/atomic-fi-openapi.yml
-    type: OpenAPI
-  - url: collections/atomic-fi.postman_collection.json
-    type: PostmanCollection
-  - url: collections/atomic-fi.opencollection.json
-    type: OpenCollection
-  description: Retrieves payroll data by user identifier - deposit accounts, employment,
-    identity, income, statements, timesheets, and taxes - plus linked-account listing
-    and user/monitoring management for ongoing connections.
+  - type: OpenAPI
+    url: openapi/atomic-fi-linked-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/reference/api
+  - type: PostmanCollection
+    url: collections/atomic-fi.postman_collection.json
+  - type: OpenCollection
+    url: collections/atomic-fi.opencollection.json
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/transact-sdk
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/deposit/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/verify/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/webhooks
+- aid: atomic-fi:atomic-fi-paylink-api
+  name: Atomic PayLink API
+  description: The PayLink API from Atomic — 2 operation(s) for paylink.
+  humanURL: https://docs.atomicfi.com/reference/api
+  baseURL: https://api.atomicfi.com
+  tags:
+  - PayLink
+  properties:
+  - type: OpenAPI
+    url: openapi/atomic-fi-paylink-api-openapi.yml
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/reference/api
+  - type: PostmanCollection
+    url: collections/atomic-fi.postman_collection.json
+  - type: OpenCollection
+    url: collections/atomic-fi.opencollection.json
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/transact-sdk
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/deposit/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/verify/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/webhooks
+- aid: atomic-fi:atomic-fi-secrets-api
+  name: Atomic Secrets API
+  description: The Secrets API from Atomic — 2 operation(s) for secrets.
+  humanURL: https://docs.atomicfi.com/reference/api
+  baseURL: https://api.atomicfi.com
+  tags:
+  - Secrets
+  properties:
+  - type: OpenAPI
+    url: openapi/atomic-fi-secrets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/reference/api
+  - type: PostmanCollection
+    url: collections/atomic-fi.postman_collection.json
+  - type: OpenCollection
+    url: collections/atomic-fi.opencollection.json
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/transact-sdk
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/deposit/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/verify/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/webhooks
+- aid: atomic-fi:atomic-fi-tasks-api
+  name: Atomic Tasks API
+  description: The Tasks API from Atomic — 5 operation(s) for tasks.
+  humanURL: https://docs.atomicfi.com/reference/api
+  baseURL: https://api.atomicfi.com
+  tags:
+  - Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/atomic-fi-tasks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/reference/api
+  - type: PostmanCollection
+    url: collections/atomic-fi.postman_collection.json
+  - type: OpenCollection
+    url: collections/atomic-fi.opencollection.json
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/transact-sdk
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/deposit/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/verify/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/webhooks
+- aid: atomic-fi:atomic-fi-users-api
+  name: Atomic Users API
+  description: The Users API from Atomic — 3 operation(s) for users.
+  humanURL: https://docs.atomicfi.com/reference/api
+  baseURL: https://api.atomicfi.com
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/atomic-fi-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/reference/api
+  - type: PostmanCollection
+    url: collections/atomic-fi.postman_collection.json
+  - type: OpenCollection
+    url: collections/atomic-fi.opencollection.json
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/transact-sdk
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/deposit/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/verify/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/webhooks
 - aid: atomic-fi:atomic-fi-webhooks-api
   name: Atomic Webhooks API
+  description: The Webhooks API from Atomic — 2 operation(s) for webhooks.
+  humanURL: https://docs.atomicfi.com/reference/api
+  baseURL: https://api.atomicfi.com
   tags:
   - Webhooks
-  - Events
-  - CloudEvents
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://docs.atomicfi.com/reference/webhooks
-  baseURL: https://api.atomicfi.com
   properties:
-  - url: https://docs.atomicfi.com/reference/webhooks
-    type: Documentation
-  - url: openapi/atomic-fi-openapi.yml
-    type: OpenAPI
-  description: Manages webhook endpoints and signing secrets, and delivers real-time
-    CloudEvents-formatted notifications such as task-status-updated, payroll-data-fetched,
-    and the *-synced data events, with retries and manual replay.
+  - type: OpenAPI
+    url: openapi/atomic-fi-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/reference/api
+  - type: PostmanCollection
+    url: collections/atomic-fi.postman_collection.json
+  - type: OpenCollection
+    url: collections/atomic-fi.opencollection.json
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/transact-sdk
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/deposit/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/products/verify/implementation
+  - type: Documentation
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: APIReference
+    url: https://docs.atomicfi.com/paylink/reference/api
+  - type: Documentation
+    url: https://docs.atomicfi.com/reference/webhooks
 common:
 - type: AgenticAccess
   url: agentic-access/atomic-fi-agentic-access.yml
