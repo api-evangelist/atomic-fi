@@ -1,0 +1,881 @@
+openapi: 3.0.3
+info:
+  title: Atomic API
+  description: >-
+    Representative OpenAPI description of Atomic's payroll and financial
+    connectivity API (UserLink and PayLink). Atomic lets applications
+    switch direct deposit, verify income and employment, retrieve payroll
+    data, and update payment methods on file through user-permissioned
+    access. The Transact SDK is an embedded, hosted front-end launched with
+    a publicToken that drives deposit, verify, and tax task workflows on top
+    of these endpoints. This is a faithful, non-exhaustive representation
+    authored by API Evangelist from public documentation, not an official
+    Atomic artifact.
+  termsOfService: https://atomicfi.com/legal
+  contact:
+    name: Atomic Support
+    url: https://docs.atomicfi.com
+  version: '1.0'
+servers:
+  - url: https://api.atomicfi.com
+    description: Production
+  - url: https://sandbox-api.atomicfi.com
+    description: Sandbox
+  - url: https://pci.atomicfi.com
+    description: Production PCI host (PayLink card data)
+  - url: https://sandbox-pci.atomicfi.com
+    description: Sandbox PCI host (PayLink card data)
+security:
+  - ApiKeyAuth: []
+tags:
+  - name: Access Tokens
+  - name: Transact
+  - name: Company
+  - name: Tasks
+  - name: Data
+  - name: Linked Accounts
+  - name: PayLink
+  - name: Users
+  - name: Webhooks
+  - name: Secrets
+paths:
+  /access-token:
+    post:
+      operationId: createAccessToken
+      tags:
+        - Access Tokens
+      summary: Create an access token
+      description: >-
+        Exchanges your API Key and Secret for a publicToken used to
+        initialize the Transact SDK on the client. Called from your backend.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccessTokenRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessTokenResponse'
+  /access-token/{publicToken}/revoke:
+    put:
+      operationId: revokeAccessToken
+      tags:
+        - Access Tokens
+      summary: Revoke an access token
+      description: Invalidates an existing publicToken so it can no longer access API resources.
+      parameters:
+        - $ref: '#/components/parameters/PublicTokenPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+  /company/search:
+    post:
+      operationId: searchCompanies
+      tags:
+        - Company
+      summary: Search companies
+      description: Find employers or merchants supported for a given product.
+      security:
+        - ApiKeyAuth: []
+        - PublicTokenAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanySearchRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Company'
+  /company/list:
+    get:
+      operationId: listCompanies
+      tags:
+        - Company
+      summary: List companies
+      parameters:
+        - name: product
+          in: query
+          schema:
+            type: string
+            enum: [deposit, verify, tax, manage]
+        - name: scope
+          in: query
+          schema:
+            type: string
+            example: user-link
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 100
+        - name: skip
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Company'
+  /company/{companyId}/details:
+    get:
+      operationId: getCompanyDetails
+      tags:
+        - Company
+      summary: Get company details
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+  /task/{taskId}/details:
+    get:
+      operationId: getTaskDetails
+      tags:
+        - Tasks
+      summary: Get task details
+      parameters:
+        - $ref: '#/components/parameters/TaskIdPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /task/{taskId}/status:
+    get:
+      operationId: getTaskStatus
+      tags:
+        - Tasks
+      summary: Get task status
+      parameters:
+        - $ref: '#/components/parameters/TaskIdPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskStatusResponse'
+  /task/{taskId}/file/{fileId}/generate-url:
+    get:
+      operationId: generateTaskFileUrl
+      tags:
+        - Tasks
+      summary: Generate a presigned file URL
+      parameters:
+        - $ref: '#/components/parameters/TaskIdPath'
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+  /task/prescreen:
+    post:
+      operationId: prescreenTask
+      tags:
+        - Tasks
+      summary: Prescreen a task (beta)
+      description: Returns a confidence signal on whether a company can be connected for a product.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrescreenRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      confidence:
+                        type: string
+                        enum: [HIGH, LOW]
+  /task-workflow/from-linked-account:
+    post:
+      operationId: createTaskWorkflowFromLinkedAccount
+      tags:
+        - Tasks
+        - Linked Accounts
+      summary: Start a task workflow from a linked account
+      description: >-
+        Runs deposit, verify, or tax tasks against an already-connected
+        linked account without re-authenticating the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskWorkflowFromLinkedAccountRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskWorkflowResponse'
+  /deposit-accounts/{identifier}:
+    get:
+      operationId: getDepositAccounts
+      tags:
+        - Data
+      summary: Get deposit accounts
+      parameters:
+        - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /employment/{identifier}:
+    get:
+      operationId: getEmployment
+      tags:
+        - Data
+      summary: Get employment data
+      parameters:
+        - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /identity/{identifier}:
+    get:
+      operationId: getIdentity
+      tags:
+        - Data
+      summary: Get identity data
+      parameters:
+        - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /income/{identifier}:
+    get:
+      operationId: getIncome
+      tags:
+        - Data
+      summary: Get income data
+      parameters:
+        - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /statements/{identifier}:
+    get:
+      operationId: getStatements
+      tags:
+        - Data
+      summary: Get statements (paystubs)
+      parameters:
+        - $ref: '#/components/parameters/IdentifierPath'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /timesheets/{identifier}:
+    get:
+      operationId: getTimesheets
+      tags:
+        - Data
+      summary: Get timesheets
+      parameters:
+        - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /taxes/{identifier}:
+    get:
+      operationId: getTaxes
+      tags:
+        - Data
+      summary: Get taxes (W-2 / 1099)
+      parameters:
+        - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /linked-account/list/{identifier}:
+    get:
+      operationId: listLinkedAccounts
+      tags:
+        - Linked Accounts
+      summary: List linked accounts
+      parameters:
+        - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LinkedAccount'
+  /pay-link/actions-for-company/{companyId}:
+    get:
+      operationId: getPayLinkActionsForCompany
+      tags:
+        - PayLink
+      summary: List available PayLink actions for a company
+      parameters:
+        - name: companyId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /pay-link/accounts:
+    get:
+      operationId: getPayLinkAccounts
+      tags:
+        - PayLink
+      summary: Retrieve a user's connected PayLink accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /user:
+    put:
+      operationId: updateUser
+      tags:
+        - Users
+      summary: Update a user
+      description: Stores destination bank accounts or cards to present during a task workflow.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+  /user/{identifier}/tasks:
+    get:
+      operationId: getUserTasks
+      tags:
+        - Users
+      summary: Get a user's tasks
+      parameters:
+        - $ref: '#/components/parameters/IdentifierPath'
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: payrollDataAvailable
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+  /user/{identifier}/end-monitoring:
+    put:
+      operationId: endUserMonitoring
+      tags:
+        - Users
+      summary: End monitoring for a user
+      parameters:
+        - $ref: '#/components/parameters/IdentifierPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+  /webhooks/endpoints:
+    get:
+      operationId: listWebhookEndpoints
+      tags:
+        - Webhooks
+      summary: List webhook endpoints
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebhookEndpoint'
+    post:
+      operationId: createWebhookEndpoint
+      tags:
+        - Webhooks
+      summary: Create a webhook endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEndpointRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpoint'
+  /webhooks/endpoints/{id}:
+    put:
+      operationId: updateWebhookEndpoint
+      tags:
+        - Webhooks
+      summary: Update a webhook endpoint
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEndpointRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpoint'
+    delete:
+      operationId: deleteWebhookEndpoint
+      tags:
+        - Webhooks
+      summary: Delete a webhook endpoint
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+  /secrets:
+    get:
+      operationId: listSecrets
+      tags:
+        - Secrets
+      summary: List signing secrets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Secret'
+    post:
+      operationId: createSecret
+      tags:
+        - Secrets
+      summary: Create a signing secret
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Secret'
+  /secrets/{id}:
+    delete:
+      operationId: deleteSecret
+      tags:
+        - Secrets
+      summary: Delete a signing secret
+      parameters:
+        - $ref: '#/components/parameters/IdPath'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResult'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: >-
+        API Key sent in the x-api-key header, paired with the x-api-secret
+        header. Used for backend-to-backend calls.
+    PublicTokenAuth:
+      type: apiKey
+      in: header
+      name: x-public-token
+      description: Public token for permitted client-side requests.
+  parameters:
+    IdentifierPath:
+      name: identifier
+      in: path
+      required: true
+      description: Your unique identifier for the end user.
+      schema:
+        type: string
+    TaskIdPath:
+      name: taskId
+      in: path
+      required: true
+      schema:
+        type: string
+    PublicTokenPath:
+      name: publicToken
+      in: path
+      required: true
+      schema:
+        type: string
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    CreateAccessTokenRequest:
+      type: object
+      required:
+        - identifier
+      properties:
+        identifier:
+          type: string
+          description: Your unique identifier for the end user.
+        tokenLifetime:
+          type: integer
+          description: Lifetime of the returned publicToken in seconds.
+          example: 86400
+    AccessTokenResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            publicToken:
+              type: string
+    CompanySearchRequest:
+      type: object
+      properties:
+        query:
+          type: string
+        product:
+          type: string
+          enum: [deposit, verify, tax, manage]
+        scopes:
+          type: array
+          items:
+            type: string
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
+    PrescreenRequest:
+      type: object
+      properties:
+        company:
+          type: object
+          properties:
+            name:
+              type: string
+            id:
+              type: string
+        product:
+          type: string
+          enum: [deposit, verify, tax]
+    Task:
+      type: object
+      properties:
+        _id:
+          type: string
+        status:
+          type: string
+          enum: [queued, processing, completed, failed]
+        product:
+          type: string
+        authentication:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        payrollDataAvailable:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    TaskStatusResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            task:
+              type: object
+              properties:
+                createdAt:
+                  type: string
+                  format: date-time
+                status:
+                  type: string
+                  enum: [queued, processing, completed, failed]
+                payrollDataAvailable:
+                  type: boolean
+                failReason:
+                  type: string
+    TaskWorkflowFromLinkedAccountRequest:
+      type: object
+      required:
+        - linkedAccount
+        - tasks
+      properties:
+        linkedAccount:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskDefinition'
+    TaskDefinition:
+      type: object
+      properties:
+        operation:
+          type: string
+          enum: [deposit, verify, tax]
+        onComplete:
+          type: string
+          enum: [continue, finish]
+        onFail:
+          type: string
+          enum: [continue, finish]
+        distribution:
+          type: object
+          properties:
+            type:
+              type: string
+              enum: [total, fixed, percent]
+            amount:
+              type: number
+    TaskWorkflowResponse:
+      type: object
+      properties:
+        task:
+          $ref: '#/components/schemas/Task'
+        taskWorkflow:
+          type: string
+    LinkedAccount:
+      type: object
+      properties:
+        _id:
+          type: string
+        valid:
+          type: boolean
+        company:
+          $ref: '#/components/schemas/Company'
+        lastSuccess:
+          type: string
+          format: date-time
+        lastFailure:
+          type: string
+          format: date-time
+    UpdateUserRequest:
+      type: object
+      required:
+        - identifier
+      properties:
+        identifier:
+          type: string
+        data:
+          type: object
+          properties:
+            bankAccounts:
+              type: array
+              items:
+                type: object
+            cards:
+              type: array
+              items:
+                type: object
+    WebhookEndpointRequest:
+      type: object
+      required:
+        - url
+        - eventTypes
+      properties:
+        url:
+          type: string
+          format: uri
+        secretId:
+          type: string
+        eventTypes:
+          type: array
+          items:
+            type: string
+          example:
+            - task-status-updated
+    WebhookEndpoint:
+      type: object
+      properties:
+        _id:
+          type: string
+        url:
+          type: string
+          format: uri
+        eventTypes:
+          type: array
+          items:
+            type: string
+    Secret:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        token:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    SuccessResult:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            success:
+              type: boolean
+        success:
+          type: boolean

@@ -1,0 +1,30 @@
+{
+  "provider": "atomic-fi",
+  "sources": [
+    "atomic-fi-access-tokens-api-openapi.yml",
+    "atomic-fi-company-api-openapi.yml",
+    "atomic-fi-data-api-openapi.yml",
+    "atomic-fi-linked-accounts-api-openapi.yml",
+    "atomic-fi-paylink-api-openapi.yml",
+    "atomic-fi-secrets-api-openapi.yml",
+    "atomic-fi-tasks-api-openapi.yml",
+    "atomic-fi-users-api-openapi.yml",
+    "atomic-fi-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "atomic-fi-access-tokens-api-openapi.yml",
+    "atomic-fi-company-api-openapi.yml",
+    "atomic-fi-data-api-openapi.yml",
+    "atomic-fi-linked-accounts-api-openapi.yml",
+    "atomic-fi-paylink-api-openapi.yml",
+    "atomic-fi-secrets-api-openapi.yml",
+    "atomic-fi-tasks-api-openapi.yml",
+    "atomic-fi-users-api-openapi.yml",
+    "atomic-fi-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
