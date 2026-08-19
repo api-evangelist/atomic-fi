@@ -31,7 +31,7 @@ tags:
 - Embedded Finance
 created: '2026-07-01'
 modified: '2026-07-01'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: atomic-fi:atomic-fi-access-tokens-api
   name: Atomic Access Tokens API
