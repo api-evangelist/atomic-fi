@@ -1,0 +1,245 @@
+{
+  "item": [
+    {
+      "id": "9abd3d17-340b-49e5-a914-ab00387717f6",
+      "name": "Linked Accounts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d3152cf8-19f0-420c-94ad-1c9276d5c063",
+          "name": "Start a task workflow from a linked account",
+          "request": {
+            "name": "Start a task workflow from a linked account",
+            "description": {
+              "content": "Runs deposit, verify, or tax tasks against an already-connected linked account without re-authenticating the user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "task-workflow",
+                "from-linked-account"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"linkedAccount\": \"<string>\",\n  \"tasks\": [\n    {\n      \"operation\": \"<string>\",\n      \"onComplete\": \"<string>\",\n      \"onFail\": \"<string>\",\n      \"distribution\": {\n        \"type\": \"<string>\",\n        \"amount\": \"<number>\"\n      }\n    },\n    {\n      \"operation\": \"<string>\",\n      \"onComplete\": \"<string>\",\n      \"onFail\": \"<string>\",\n      \"distribution\": {\n        \"type\": \"<string>\",\n        \"amount\": \"<number>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3deddcca-4862-470f-a803-3f32235ae5f0",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "task-workflow",
+                    "from-linked-account"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"linkedAccount\": \"<string>\",\n  \"tasks\": [\n    {\n      \"operation\": \"<string>\",\n      \"onComplete\": \"<string>\",\n      \"onFail\": \"<string>\",\n      \"distribution\": {\n        \"type\": \"<string>\",\n        \"amount\": \"<number>\"\n      }\n    },\n    {\n      \"operation\": \"<string>\",\n      \"onComplete\": \"<string>\",\n      \"onFail\": \"<string>\",\n      \"distribution\": {\n        \"type\": \"<string>\",\n        \"amount\": \"<number>\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"task\": {\n    \"_id\": \"string\",\n    \"status\": \"queued\",\n    \"product\": \"string\",\n    \"authentication\": \"string\",\n    \"company\": {\n      \"_id\": \"string\",\n      \"name\": \"string\",\n      \"status\": \"string\",\n      \"branding\": {},\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"payrollDataAvailable\": true,\n    \"createdAt\": \"1994-08-21T22:48:35.196Z\"\n  },\n  \"taskWorkflow\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "80a8e9c5-092b-412f-ac5b-d330a295aede",
+          "name": "List linked accounts",
+          "request": {
+            "name": "List linked accounts",
+            "description": {},
+            "url": {
+              "path": [
+                "linked-account",
+                "list",
+                ":identifier"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "identifier",
+                  "description": "(Required) Your unique identifier for the end user."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1442f621-7ec1-4502-a06c-b8e579564a72",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "linked-account",
+                    "list",
+                    ":identifier"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "identifier",
+                      "description": "(Required) Your unique identifier for the end user."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"_id\": \"string\",\n    \"valid\": false,\n    \"company\": {\n      \"_id\": \"string\",\n      \"name\": \"string\",\n      \"status\": \"string\",\n      \"branding\": {},\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"lastSuccess\": \"1968-02-11T13:49:49.074Z\",\n    \"lastFailure\": \"1993-10-21T03:21:48.959Z\"\n  },\n  {\n    \"_id\": \"string\",\n    \"valid\": true,\n    \"company\": {\n      \"_id\": \"string\",\n      \"name\": \"string\",\n      \"status\": \"string\",\n      \"branding\": {},\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"lastSuccess\": \"2018-04-22T00:10:00.864Z\",\n    \"lastFailure\": \"1990-03-24T01:10:40.615Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.atomicfi.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f2316996-1944-4caa-b47a-44e4c0d6471d",
+    "name": "Atomic Access Tokens Linked Accounts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink). Atomic lets applications switch direct deposit, verify income and employment, retrieve payroll data, and update payment methods on file through user-permissioned access. The Transact SDK is an embedded, hosted front-end launched with a publicToken that drives deposit, verify, and tax task workflows on top of these endpoints. This is a faithful, non-exhaustive representation authored by API Evangelist from public documentation, not an official Atomic artifact.\n\nContact Support:\n Name: Atomic Support",
+      "type": "text/plain"
+    }
+  }
+}

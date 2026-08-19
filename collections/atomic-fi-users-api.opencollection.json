@@ -1,0 +1,89 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Atomic Access Tokens Users API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.atomicfi.com/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Stores destination bank accounts or cards to present during a task workflow."
+        },
+        {
+          "info": {
+            "name": "Get a user's tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/user/:identifier/tasks",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the end user."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "payrollDataAvailable",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get a user's tasks"
+        },
+        {
+          "info": {
+            "name": "End monitoring for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.atomicfi.com/user/:identifier/end-monitoring",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the end user."
+              }
+            ]
+          },
+          "docs": "End monitoring for a user"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

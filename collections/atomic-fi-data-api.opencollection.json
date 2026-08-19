@@ -1,0 +1,164 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Atomic Access Tokens Data API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get deposit accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/deposit-accounts/:identifier",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the end user."
+              }
+            ]
+          },
+          "docs": "Get deposit accounts"
+        },
+        {
+          "info": {
+            "name": "Get employment data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/employment/:identifier",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the end user."
+              }
+            ]
+          },
+          "docs": "Get employment data"
+        },
+        {
+          "info": {
+            "name": "Get identity data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/identity/:identifier",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the end user."
+              }
+            ]
+          },
+          "docs": "Get identity data"
+        },
+        {
+          "info": {
+            "name": "Get income data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/income/:identifier",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the end user."
+              }
+            ]
+          },
+          "docs": "Get income data"
+        },
+        {
+          "info": {
+            "name": "Get statements (paystubs)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/statements/:identifier",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the end user."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get statements (paystubs)"
+        },
+        {
+          "info": {
+            "name": "Get timesheets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/timesheets/:identifier",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the end user."
+              }
+            ]
+          },
+          "docs": "Get timesheets"
+        },
+        {
+          "info": {
+            "name": "Get taxes (W-2 / 1099)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/taxes/:identifier",
+            "params": [
+              {
+                "name": "identifier",
+                "value": "",
+                "type": "path",
+                "description": "Your unique identifier for the end user."
+              }
+            ]
+          },
+          "docs": "Get taxes (W-2 / 1099)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

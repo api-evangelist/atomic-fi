@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Atomic Access Tokens PayLink API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PayLink",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List available PayLink actions for a company",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/pay-link/actions-for-company/:companyId",
+            "params": [
+              {
+                "name": "companyId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List available PayLink actions for a company"
+        },
+        {
+          "info": {
+            "name": "Retrieve a user's connected PayLink accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.atomicfi.com/pay-link/accounts"
+          },
+          "docs": "Retrieve a user's connected PayLink accounts"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
