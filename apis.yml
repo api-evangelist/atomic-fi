@@ -7,6 +7,18 @@ description: Atomic is a payroll and financial connectivity platform. Through us
   deposit, verify income and employment, retrieve payroll data, and update payment
   methods on file. The Transact SDK is an embedded, hosted front-end that drives these
   workflows on top of Atomic's backend REST API.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
