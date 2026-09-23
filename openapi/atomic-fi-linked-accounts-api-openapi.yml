@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Atomic Access Tokens Linked Accounts API
-  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink). Atomic lets applications switch direct deposit, verify income and employment, retrieve payroll data, and update payment methods on file through user-permissioned access. The Transact SDK is an embedded, hosted front-end launched with a publicToken that drives deposit, verify, and tax task workflows on top of these endpoints. This is a faithful, non-exhaustive representation authored by API Evangelist from public documentation, not an official Atomic artifact.
+  title: Atomic Linked Accounts API
+  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink).
   termsOfService: https://atomicfi.com/legal
   contact:
     name: Atomic Support
@@ -59,34 +59,38 @@ paths:
                 items:
                   $ref: '#/components/schemas/LinkedAccount'
 components:
+  parameters:
+    IdentifierPath:
+      name: identifier
+      in: path
+      required: true
+      description: Your unique identifier for the end user.
+      schema:
+        type: string
   schemas:
-    Company:
+    Task:
       type: object
       properties:
         _id:
           type: string
-        name:
-          type: string
         status:
           type: string
-        branding:
-          type: object
-        tags:
-          type: array
-          items:
-            type: string
-    TaskWorkflowFromLinkedAccountRequest:
-      type: object
-      required:
-      - linkedAccount
-      - tasks
-      properties:
-        linkedAccount:
+          enum:
+          - queued
+          - processing
+          - completed
+          - failed
+        product:
           type: string
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskDefinition'
+        authentication:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        payrollDataAvailable:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
     TaskDefinition:
       type: object
       properties:
@@ -117,29 +121,6 @@ components:
               - percent
             amount:
               type: number
-    Task:
-      type: object
-      properties:
-        _id:
-          type: string
-        status:
-          type: string
-          enum:
-          - queued
-          - processing
-          - completed
-          - failed
-        product:
-          type: string
-        authentication:
-          type: string
-        company:
-          $ref: '#/components/schemas/Company'
-        payrollDataAvailable:
-          type: boolean
-        createdAt:
-          type: string
-          format: date-time
     LinkedAccount:
       type: object
       properties:
@@ -162,14 +143,33 @@ components:
           $ref: '#/components/schemas/Task'
         taskWorkflow:
           type: string
-  parameters:
-    IdentifierPath:
-      name: identifier
-      in: path
-      required: true
-      description: Your unique identifier for the end user.
-      schema:
-        type: string
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
+    TaskWorkflowFromLinkedAccountRequest:
+      type: object
+      required:
+      - linkedAccount
+      - tasks
+      properties:
+        linkedAccount:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskDefinition'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

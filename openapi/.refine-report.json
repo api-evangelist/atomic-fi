@@ -1,15 +1,7 @@
 {
   "provider": "atomic-fi",
   "sources": [
-    "atomic-fi-access-tokens-api-openapi.yml",
-    "atomic-fi-company-api-openapi.yml",
-    "atomic-fi-data-api-openapi.yml",
-    "atomic-fi-linked-accounts-api-openapi.yml",
-    "atomic-fi-paylink-api-openapi.yml",
-    "atomic-fi-secrets-api-openapi.yml",
-    "atomic-fi-tasks-api-openapi.yml",
-    "atomic-fi-users-api-openapi.yml",
-    "atomic-fi-webhooks-api-openapi.yml"
+    "_original/atomic-fi-openapi.yml"
   ],
   "outputs": [
     "atomic-fi-access-tokens-api-openapi.yml",
@@ -25,6 +17,20 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "atomic-fi-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "atomic-fi-access-tokens-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "atomic-fi-company-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "atomic-fi-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "atomic-fi-linked-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "atomic-fi-paylink-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "atomic-fi-secrets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "atomic-fi-tasks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "atomic-fi-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "atomic-fi-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

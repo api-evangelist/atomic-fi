@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Atomic Access Tokens Company API
-  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink). Atomic lets applications switch direct deposit, verify income and employment, retrieve payroll data, and update payment methods on file through user-permissioned access. The Transact SDK is an embedded, hosted front-end launched with a publicToken that drives deposit, verify, and tax task workflows on top of these endpoints. This is a faithful, non-exhaustive representation authored by API Evangelist from public documentation, not an official Atomic artifact.
+  title: Atomic Company API
+  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink).
   termsOfService: https://atomicfi.com/legal
   contact:
     name: Atomic Support
@@ -107,21 +107,6 @@ paths:
                 $ref: '#/components/schemas/Company'
 components:
   schemas:
-    Company:
-      type: object
-      properties:
-        _id:
-          type: string
-        name:
-          type: string
-        status:
-          type: string
-        branding:
-          type: object
-        tags:
-          type: array
-          items:
-            type: string
     CompanySearchRequest:
       type: object
       properties:
@@ -135,6 +120,21 @@ components:
           - tax
           - manage
         scopes:
+          type: array
+          items:
+            type: string
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
           type: array
           items:
             type: string

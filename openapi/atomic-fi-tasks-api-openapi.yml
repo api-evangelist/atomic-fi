@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Atomic Access Tokens Tasks API
-  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink). Atomic lets applications switch direct deposit, verify income and employment, retrieve payroll data, and update payment methods on file through user-permissioned access. The Transact SDK is an embedded, hosted front-end launched with a publicToken that drives deposit, verify, and tax task workflows on top of these endpoints. This is a faithful, non-exhaustive representation authored by API Evangelist from public documentation, not an official Atomic artifact.
+  title: Atomic Tasks API
+  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink).
   termsOfService: https://atomicfi.com/legal
   contact:
     name: Atomic Support
@@ -125,41 +125,53 @@ paths:
               schema:
                 $ref: '#/components/schemas/TaskWorkflowResponse'
 components:
-  parameters:
-    TaskIdPath:
-      name: taskId
-      in: path
-      required: true
-      schema:
-        type: string
   schemas:
-    Company:
+    TaskStatusResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            task:
+              type: object
+              properties:
+                createdAt:
+                  type: string
+                  format: date-time
+                status:
+                  type: string
+                  enum:
+                  - queued
+                  - processing
+                  - completed
+                  - failed
+                payrollDataAvailable:
+                  type: boolean
+                failReason:
+                  type: string
+    Task:
       type: object
       properties:
         _id:
           type: string
-        name:
-          type: string
         status:
           type: string
-        branding:
-          type: object
-        tags:
-          type: array
-          items:
-            type: string
-    TaskWorkflowFromLinkedAccountRequest:
-      type: object
-      required:
-      - linkedAccount
-      - tasks
-      properties:
-        linkedAccount:
+          enum:
+          - queued
+          - processing
+          - completed
+          - failed
+        product:
           type: string
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskDefinition'
+        authentication:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        payrollDataAvailable:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
     TaskDefinition:
       type: object
       properties:
@@ -190,52 +202,6 @@ components:
               - percent
             amount:
               type: number
-    Task:
-      type: object
-      properties:
-        _id:
-          type: string
-        status:
-          type: string
-          enum:
-          - queued
-          - processing
-          - completed
-          - failed
-        product:
-          type: string
-        authentication:
-          type: string
-        company:
-          $ref: '#/components/schemas/Company'
-        payrollDataAvailable:
-          type: boolean
-        createdAt:
-          type: string
-          format: date-time
-    TaskStatusResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            task:
-              type: object
-              properties:
-                createdAt:
-                  type: string
-                  format: date-time
-                status:
-                  type: string
-                  enum:
-                  - queued
-                  - processing
-                  - completed
-                  - failed
-                payrollDataAvailable:
-                  type: boolean
-                failReason:
-                  type: string
     TaskWorkflowResponse:
       type: object
       properties:
@@ -259,6 +225,40 @@ components:
           - deposit
           - verify
           - tax
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
+    TaskWorkflowFromLinkedAccountRequest:
+      type: object
+      required:
+      - linkedAccount
+      - tasks
+      properties:
+        linkedAccount:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskDefinition'
+  parameters:
+    TaskIdPath:
+      name: taskId
+      in: path
+      required: true
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Atomic Access Tokens Webhooks API
-  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink). Atomic lets applications switch direct deposit, verify income and employment, retrieve payroll data, and update payment methods on file through user-permissioned access. The Transact SDK is an embedded, hosted front-end launched with a publicToken that drives deposit, verify, and tax task workflows on top of these endpoints. This is a faithful, non-exhaustive representation authored by API Evangelist from public documentation, not an official Atomic artifact.
+  title: Atomic Webhooks API
+  description: Representative OpenAPI description of Atomic's payroll and financial connectivity API (UserLink and PayLink).
   termsOfService: https://atomicfi.com/legal
   contact:
     name: Atomic Support
@@ -90,14 +90,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/SuccessResult'
 components:
-  parameters:
-    IdPath:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
   schemas:
+    SuccessResult:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            success:
+              type: boolean
+        success:
+          type: boolean
     WebhookEndpoint:
       type: object
       properties:
@@ -127,16 +130,13 @@ components:
             type: string
           example:
           - task-status-updated
-    SuccessResult:
-      type: object
-      properties:
-        result:
-          type: object
-          properties:
-            success:
-              type: boolean
-        success:
-          type: boolean
+  parameters:
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
