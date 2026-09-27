@@ -59,38 +59,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/LinkedAccount'
 components:
-  parameters:
-    IdentifierPath:
-      name: identifier
-      in: path
-      required: true
-      description: Your unique identifier for the end user.
-      schema:
-        type: string
   schemas:
-    Task:
-      type: object
-      properties:
-        _id:
-          type: string
-        status:
-          type: string
-          enum:
-          - queued
-          - processing
-          - completed
-          - failed
-        product:
-          type: string
-        authentication:
-          type: string
-        company:
-          $ref: '#/components/schemas/Company'
-        payrollDataAvailable:
-          type: boolean
-        createdAt:
-          type: string
-          format: date-time
     TaskDefinition:
       type: object
       properties:
@@ -121,19 +90,27 @@ components:
               - percent
             amount:
               type: number
-    LinkedAccount:
+    Task:
       type: object
       properties:
         _id:
           type: string
-        valid:
-          type: boolean
+        status:
+          type: string
+          enum:
+          - queued
+          - processing
+          - completed
+          - failed
+        product:
+          type: string
+        authentication:
+          type: string
         company:
           $ref: '#/components/schemas/Company'
-        lastSuccess:
-          type: string
-          format: date-time
-        lastFailure:
+        payrollDataAvailable:
+          type: boolean
+        createdAt:
           type: string
           format: date-time
     TaskWorkflowResponse:
@@ -158,6 +135,21 @@ components:
           type: array
           items:
             type: string
+    LinkedAccount:
+      type: object
+      properties:
+        _id:
+          type: string
+        valid:
+          type: boolean
+        company:
+          $ref: '#/components/schemas/Company'
+        lastSuccess:
+          type: string
+          format: date-time
+        lastFailure:
+          type: string
+          format: date-time
     TaskWorkflowFromLinkedAccountRequest:
       type: object
       required:
@@ -170,6 +162,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TaskDefinition'
+  parameters:
+    IdentifierPath:
+      name: identifier
+      in: path
+      required: true
+      description: Your unique identifier for the end user.
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

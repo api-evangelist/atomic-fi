@@ -82,14 +82,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/SuccessResult'
 components:
-  parameters:
-    IdentifierPath:
-      name: identifier
-      in: path
-      required: true
-      description: Your unique identifier for the end user.
-      schema:
-        type: string
   schemas:
     UpdateUserRequest:
       type: object
@@ -157,6 +149,14 @@ components:
               type: boolean
         success:
           type: boolean
+  parameters:
+    IdentifierPath:
+      name: identifier
+      in: path
+      required: true
+      description: Your unique identifier for the end user.
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

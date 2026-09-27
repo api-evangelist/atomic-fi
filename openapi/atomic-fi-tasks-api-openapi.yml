@@ -125,7 +125,60 @@ paths:
               schema:
                 $ref: '#/components/schemas/TaskWorkflowResponse'
 components:
+  parameters:
+    TaskIdPath:
+      name: taskId
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
+    TaskDefinition:
+      type: object
+      properties:
+        operation:
+          type: string
+          enum:
+          - deposit
+          - verify
+          - tax
+        onComplete:
+          type: string
+          enum:
+          - continue
+          - finish
+        onFail:
+          type: string
+          enum:
+          - continue
+          - finish
+        distribution:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - total
+              - fixed
+              - percent
+            amount:
+              type: number
+    PrescreenRequest:
+      type: object
+      properties:
+        company:
+          type: object
+          properties:
+            name:
+              type: string
+            id:
+              type: string
+        product:
+          type: string
+          enum:
+          - deposit
+          - verify
+          - tax
     TaskStatusResponse:
       type: object
       properties:
@@ -172,36 +225,6 @@ components:
         createdAt:
           type: string
           format: date-time
-    TaskDefinition:
-      type: object
-      properties:
-        operation:
-          type: string
-          enum:
-          - deposit
-          - verify
-          - tax
-        onComplete:
-          type: string
-          enum:
-          - continue
-          - finish
-        onFail:
-          type: string
-          enum:
-          - continue
-          - finish
-        distribution:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - total
-              - fixed
-              - percent
-            amount:
-              type: number
     TaskWorkflowResponse:
       type: object
       properties:
@@ -209,22 +232,6 @@ components:
           $ref: '#/components/schemas/Task'
         taskWorkflow:
           type: string
-    PrescreenRequest:
-      type: object
-      properties:
-        company:
-          type: object
-          properties:
-            name:
-              type: string
-            id:
-              type: string
-        product:
-          type: string
-          enum:
-          - deposit
-          - verify
-          - tax
     Company:
       type: object
       properties:
@@ -252,13 +259,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TaskDefinition'
-  parameters:
-    TaskIdPath:
-      name: taskId
-      in: path
-      required: true
-      schema:
-        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
