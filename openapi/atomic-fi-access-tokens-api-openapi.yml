@@ -59,6 +59,24 @@ paths:
                 $ref: '#/components/schemas/SuccessResult'
 components:
   schemas:
+    AccessTokenResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            publicToken:
+              type: string
+    SuccessResult:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            success:
+              type: boolean
+        success:
+          type: boolean
     CreateAccessTokenRequest:
       type: object
       required:
@@ -71,24 +89,6 @@ components:
           type: integer
           description: Lifetime of the returned publicToken in seconds.
           example: 86400
-    SuccessResult:
-      type: object
-      properties:
-        result:
-          type: object
-          properties:
-            success:
-              type: boolean
-        success:
-          type: boolean
-    AccessTokenResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            publicToken:
-              type: string
   parameters:
     PublicTokenPath:
       name: publicToken

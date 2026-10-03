@@ -125,14 +125,64 @@ paths:
               schema:
                 $ref: '#/components/schemas/TaskWorkflowResponse'
 components:
-  parameters:
-    TaskIdPath:
-      name: taskId
-      in: path
-      required: true
-      schema:
-        type: string
   schemas:
+    TaskWorkflowFromLinkedAccountRequest:
+      type: object
+      required:
+      - linkedAccount
+      - tasks
+      properties:
+        linkedAccount:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskDefinition'
+    TaskWorkflowResponse:
+      type: object
+      properties:
+        task:
+          $ref: '#/components/schemas/Task'
+        taskWorkflow:
+          type: string
+    TaskStatusResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            task:
+              type: object
+              properties:
+                createdAt:
+                  type: string
+                  format: date-time
+                status:
+                  type: string
+                  enum:
+                  - queued
+                  - processing
+                  - completed
+                  - failed
+                payrollDataAvailable:
+                  type: boolean
+                failReason:
+                  type: string
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
     TaskDefinition:
       type: object
       properties:
@@ -163,45 +213,6 @@ components:
               - percent
             amount:
               type: number
-    PrescreenRequest:
-      type: object
-      properties:
-        company:
-          type: object
-          properties:
-            name:
-              type: string
-            id:
-              type: string
-        product:
-          type: string
-          enum:
-          - deposit
-          - verify
-          - tax
-    TaskStatusResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            task:
-              type: object
-              properties:
-                createdAt:
-                  type: string
-                  format: date-time
-                status:
-                  type: string
-                  enum:
-                  - queued
-                  - processing
-                  - completed
-                  - failed
-                payrollDataAvailable:
-                  type: boolean
-                failReason:
-                  type: string
     Task:
       type: object
       properties:
@@ -225,40 +236,29 @@ components:
         createdAt:
           type: string
           format: date-time
-    TaskWorkflowResponse:
+    PrescreenRequest:
       type: object
       properties:
-        task:
-          $ref: '#/components/schemas/Task'
-        taskWorkflow:
-          type: string
-    Company:
-      type: object
-      properties:
-        _id:
-          type: string
-        name:
-          type: string
-        status:
-          type: string
-        branding:
+        company:
           type: object
-        tags:
-          type: array
-          items:
-            type: string
-    TaskWorkflowFromLinkedAccountRequest:
-      type: object
-      required:
-      - linkedAccount
-      - tasks
-      properties:
-        linkedAccount:
+          properties:
+            name:
+              type: string
+            id:
+              type: string
+        product:
           type: string
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskDefinition'
+          enum:
+          - deposit
+          - verify
+          - tax
+  parameters:
+    TaskIdPath:
+      name: taskId
+      in: path
+      required: true
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

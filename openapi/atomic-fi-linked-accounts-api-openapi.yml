@@ -60,6 +60,40 @@ paths:
                   $ref: '#/components/schemas/LinkedAccount'
 components:
   schemas:
+    TaskWorkflowFromLinkedAccountRequest:
+      type: object
+      required:
+      - linkedAccount
+      - tasks
+      properties:
+        linkedAccount:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskDefinition'
+    TaskWorkflowResponse:
+      type: object
+      properties:
+        task:
+          $ref: '#/components/schemas/Task'
+        taskWorkflow:
+          type: string
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
     TaskDefinition:
       type: object
       properties:
@@ -90,6 +124,21 @@ components:
               - percent
             amount:
               type: number
+    LinkedAccount:
+      type: object
+      properties:
+        _id:
+          type: string
+        valid:
+          type: boolean
+        company:
+          $ref: '#/components/schemas/Company'
+        lastSuccess:
+          type: string
+          format: date-time
+        lastFailure:
+          type: string
+          format: date-time
     Task:
       type: object
       properties:
@@ -113,55 +162,6 @@ components:
         createdAt:
           type: string
           format: date-time
-    TaskWorkflowResponse:
-      type: object
-      properties:
-        task:
-          $ref: '#/components/schemas/Task'
-        taskWorkflow:
-          type: string
-    Company:
-      type: object
-      properties:
-        _id:
-          type: string
-        name:
-          type: string
-        status:
-          type: string
-        branding:
-          type: object
-        tags:
-          type: array
-          items:
-            type: string
-    LinkedAccount:
-      type: object
-      properties:
-        _id:
-          type: string
-        valid:
-          type: boolean
-        company:
-          $ref: '#/components/schemas/Company'
-        lastSuccess:
-          type: string
-          format: date-time
-        lastFailure:
-          type: string
-          format: date-time
-    TaskWorkflowFromLinkedAccountRequest:
-      type: object
-      required:
-      - linkedAccount
-      - tasks
-      properties:
-        linkedAccount:
-          type: string
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskDefinition'
   parameters:
     IdentifierPath:
       name: identifier
