@@ -59,7 +59,68 @@ paths:
                 items:
                   $ref: '#/components/schemas/LinkedAccount'
 components:
+  parameters:
+    IdentifierPath:
+      name: identifier
+      in: path
+      required: true
+      description: Your unique identifier for the end user.
+      schema:
+        type: string
   schemas:
+    Task:
+      type: object
+      properties:
+        _id:
+          type: string
+        status:
+          type: string
+          enum:
+          - queued
+          - processing
+          - completed
+          - failed
+        product:
+          type: string
+        authentication:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        payrollDataAvailable:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    LinkedAccount:
+      type: object
+      properties:
+        _id:
+          type: string
+        valid:
+          type: boolean
+        company:
+          $ref: '#/components/schemas/Company'
+        lastSuccess:
+          type: string
+          format: date-time
+        lastFailure:
+          type: string
+          format: date-time
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
     TaskWorkflowFromLinkedAccountRequest:
       type: object
       required:
@@ -79,21 +140,6 @@ components:
           $ref: '#/components/schemas/Task'
         taskWorkflow:
           type: string
-    Company:
-      type: object
-      properties:
-        _id:
-          type: string
-        name:
-          type: string
-        status:
-          type: string
-        branding:
-          type: object
-        tags:
-          type: array
-          items:
-            type: string
     TaskDefinition:
       type: object
       properties:
@@ -124,52 +170,6 @@ components:
               - percent
             amount:
               type: number
-    LinkedAccount:
-      type: object
-      properties:
-        _id:
-          type: string
-        valid:
-          type: boolean
-        company:
-          $ref: '#/components/schemas/Company'
-        lastSuccess:
-          type: string
-          format: date-time
-        lastFailure:
-          type: string
-          format: date-time
-    Task:
-      type: object
-      properties:
-        _id:
-          type: string
-        status:
-          type: string
-          enum:
-          - queued
-          - processing
-          - completed
-          - failed
-        product:
-          type: string
-        authentication:
-          type: string
-        company:
-          $ref: '#/components/schemas/Company'
-        payrollDataAvailable:
-          type: boolean
-        createdAt:
-          type: string
-          format: date-time
-  parameters:
-    IdentifierPath:
-      name: identifier
-      in: path
-      required: true
-      description: Your unique identifier for the end user.
-      schema:
-        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

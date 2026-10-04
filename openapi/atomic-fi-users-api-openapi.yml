@@ -83,31 +83,6 @@ paths:
                 $ref: '#/components/schemas/SuccessResult'
 components:
   schemas:
-    SuccessResult:
-      type: object
-      properties:
-        result:
-          type: object
-          properties:
-            success:
-              type: boolean
-        success:
-          type: boolean
-    Company:
-      type: object
-      properties:
-        _id:
-          type: string
-        name:
-          type: string
-        status:
-          type: string
-        branding:
-          type: object
-        tags:
-          type: array
-          items:
-            type: string
     UpdateUserRequest:
       type: object
       required:
@@ -149,6 +124,31 @@ components:
         createdAt:
           type: string
           format: date-time
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
+    SuccessResult:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            success:
+              type: boolean
+        success:
+          type: boolean
   parameters:
     IdentifierPath:
       name: identifier

@@ -91,18 +91,16 @@ paths:
                 $ref: '#/components/schemas/SuccessResult'
 components:
   schemas:
-    WebhookEndpoint:
+    SuccessResult:
       type: object
       properties:
-        _id:
-          type: string
-        url:
-          type: string
-          format: uri
-        eventTypes:
-          type: array
-          items:
-            type: string
+        result:
+          type: object
+          properties:
+            success:
+              type: boolean
+        success:
+          type: boolean
     WebhookEndpointRequest:
       type: object
       required:
@@ -120,16 +118,18 @@ components:
             type: string
           example:
           - task-status-updated
-    SuccessResult:
+    WebhookEndpoint:
       type: object
       properties:
-        result:
-          type: object
-          properties:
-            success:
-              type: boolean
-        success:
-          type: boolean
+        _id:
+          type: string
+        url:
+          type: string
+          format: uri
+        eventTypes:
+          type: array
+          items:
+            type: string
   parameters:
     IdPath:
       name: id

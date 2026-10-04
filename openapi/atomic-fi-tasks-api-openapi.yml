@@ -126,6 +126,44 @@ paths:
                 $ref: '#/components/schemas/TaskWorkflowResponse'
 components:
   schemas:
+    Task:
+      type: object
+      properties:
+        _id:
+          type: string
+        status:
+          type: string
+          enum:
+          - queued
+          - processing
+          - completed
+          - failed
+        product:
+          type: string
+        authentication:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        payrollDataAvailable:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
     TaskWorkflowFromLinkedAccountRequest:
       type: object
       required:
@@ -138,6 +176,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TaskDefinition'
+    PrescreenRequest:
+      type: object
+      properties:
+        company:
+          type: object
+          properties:
+            name:
+              type: string
+            id:
+              type: string
+        product:
+          type: string
+          enum:
+          - deposit
+          - verify
+          - tax
     TaskWorkflowResponse:
       type: object
       properties:
@@ -168,21 +222,6 @@ components:
                   type: boolean
                 failReason:
                   type: string
-    Company:
-      type: object
-      properties:
-        _id:
-          type: string
-        name:
-          type: string
-        status:
-          type: string
-        branding:
-          type: object
-        tags:
-          type: array
-          items:
-            type: string
     TaskDefinition:
       type: object
       properties:
@@ -213,45 +252,6 @@ components:
               - percent
             amount:
               type: number
-    Task:
-      type: object
-      properties:
-        _id:
-          type: string
-        status:
-          type: string
-          enum:
-          - queued
-          - processing
-          - completed
-          - failed
-        product:
-          type: string
-        authentication:
-          type: string
-        company:
-          $ref: '#/components/schemas/Company'
-        payrollDataAvailable:
-          type: boolean
-        createdAt:
-          type: string
-          format: date-time
-    PrescreenRequest:
-      type: object
-      properties:
-        company:
-          type: object
-          properties:
-            name:
-              type: string
-            id:
-              type: string
-        product:
-          type: string
-          enum:
-          - deposit
-          - verify
-          - tax
   parameters:
     TaskIdPath:
       name: taskId
