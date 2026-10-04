@@ -1,0 +1,28 @@
+slug: atomic-fi
+provider: Atomic
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Data
+  spec_file: atomic-fi-data-api-openapi.yml
+  capability_id: BC-300.70
+  capability_id_l1: BC-300
+  capability_name: HR Operations Management
+  confidence: 0.72
+  evidence: GET /employment/{identifier}  Get employment data; GET /income/{identifier}  Get income data;
+    GET /statements/{identifier}  Get statements (paystubs); GET /timesheets/{identifier}  Get timesheets;
+    GET /taxes/{identifier}  Get taxes (W-2 / 1099)
+  reason: These operations retrieve payroll and employment records — paystubs, timesheets, income, W-2/1099
+    — which is the substance of HR Operations Management (employee records and payroll administration
+    data). Confidence moderated because the vendor's purpose is read-only verification rather than administering
+    payroll itself.
