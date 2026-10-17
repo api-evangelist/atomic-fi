@@ -69,6 +69,14 @@ components:
               type: boolean
         success:
           type: boolean
+    AccessTokenResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            publicToken:
+              type: string
     CreateAccessTokenRequest:
       type: object
       required:
@@ -81,14 +89,6 @@ components:
           type: integer
           description: Lifetime of the returned publicToken in seconds.
           example: 86400
-    AccessTokenResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            publicToken:
-              type: string
   parameters:
     PublicTokenPath:
       name: publicToken

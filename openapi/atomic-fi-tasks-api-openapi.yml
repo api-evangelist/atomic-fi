@@ -126,102 +126,6 @@ paths:
                 $ref: '#/components/schemas/TaskWorkflowResponse'
 components:
   schemas:
-    Task:
-      type: object
-      properties:
-        _id:
-          type: string
-        status:
-          type: string
-          enum:
-          - queued
-          - processing
-          - completed
-          - failed
-        product:
-          type: string
-        authentication:
-          type: string
-        company:
-          $ref: '#/components/schemas/Company'
-        payrollDataAvailable:
-          type: boolean
-        createdAt:
-          type: string
-          format: date-time
-    Company:
-      type: object
-      properties:
-        _id:
-          type: string
-        name:
-          type: string
-        status:
-          type: string
-        branding:
-          type: object
-        tags:
-          type: array
-          items:
-            type: string
-    TaskWorkflowFromLinkedAccountRequest:
-      type: object
-      required:
-      - linkedAccount
-      - tasks
-      properties:
-        linkedAccount:
-          type: string
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaskDefinition'
-    PrescreenRequest:
-      type: object
-      properties:
-        company:
-          type: object
-          properties:
-            name:
-              type: string
-            id:
-              type: string
-        product:
-          type: string
-          enum:
-          - deposit
-          - verify
-          - tax
-    TaskWorkflowResponse:
-      type: object
-      properties:
-        task:
-          $ref: '#/components/schemas/Task'
-        taskWorkflow:
-          type: string
-    TaskStatusResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            task:
-              type: object
-              properties:
-                createdAt:
-                  type: string
-                  format: date-time
-                status:
-                  type: string
-                  enum:
-                  - queued
-                  - processing
-                  - completed
-                  - failed
-                payrollDataAvailable:
-                  type: boolean
-                failReason:
-                  type: string
     TaskDefinition:
       type: object
       properties:
@@ -252,6 +156,102 @@ components:
               - percent
             amount:
               type: number
+    TaskWorkflowResponse:
+      type: object
+      properties:
+        task:
+          $ref: '#/components/schemas/Task'
+        taskWorkflow:
+          type: string
+    Task:
+      type: object
+      properties:
+        _id:
+          type: string
+        status:
+          type: string
+          enum:
+          - queued
+          - processing
+          - completed
+          - failed
+        product:
+          type: string
+        authentication:
+          type: string
+        company:
+          $ref: '#/components/schemas/Company'
+        payrollDataAvailable:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+    PrescreenRequest:
+      type: object
+      properties:
+        company:
+          type: object
+          properties:
+            name:
+              type: string
+            id:
+              type: string
+        product:
+          type: string
+          enum:
+          - deposit
+          - verify
+          - tax
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
+    TaskStatusResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            task:
+              type: object
+              properties:
+                createdAt:
+                  type: string
+                  format: date-time
+                status:
+                  type: string
+                  enum:
+                  - queued
+                  - processing
+                  - completed
+                  - failed
+                payrollDataAvailable:
+                  type: boolean
+                failReason:
+                  type: string
+    TaskWorkflowFromLinkedAccountRequest:
+      type: object
+      required:
+      - linkedAccount
+      - tasks
+      properties:
+        linkedAccount:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskDefinition'
   parameters:
     TaskIdPath:
       name: taskId

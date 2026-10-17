@@ -59,15 +59,44 @@ paths:
                 items:
                   $ref: '#/components/schemas/LinkedAccount'
 components:
-  parameters:
-    IdentifierPath:
-      name: identifier
-      in: path
-      required: true
-      description: Your unique identifier for the end user.
-      schema:
-        type: string
   schemas:
+    TaskDefinition:
+      type: object
+      properties:
+        operation:
+          type: string
+          enum:
+          - deposit
+          - verify
+          - tax
+        onComplete:
+          type: string
+          enum:
+          - continue
+          - finish
+        onFail:
+          type: string
+          enum:
+          - continue
+          - finish
+        distribution:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+              - total
+              - fixed
+              - percent
+            amount:
+              type: number
+    TaskWorkflowResponse:
+      type: object
+      properties:
+        task:
+          $ref: '#/components/schemas/Task'
+        taskWorkflow:
+          type: string
     Task:
       type: object
       properties:
@@ -133,43 +162,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TaskDefinition'
-    TaskWorkflowResponse:
-      type: object
-      properties:
-        task:
-          $ref: '#/components/schemas/Task'
-        taskWorkflow:
-          type: string
-    TaskDefinition:
-      type: object
-      properties:
-        operation:
-          type: string
-          enum:
-          - deposit
-          - verify
-          - tax
-        onComplete:
-          type: string
-          enum:
-          - continue
-          - finish
-        onFail:
-          type: string
-          enum:
-          - continue
-          - finish
-        distribution:
-          type: object
-          properties:
-            type:
-              type: string
-              enum:
-              - total
-              - fixed
-              - percent
-            amount:
-              type: number
+  parameters:
+    IdentifierPath:
+      name: identifier
+      in: path
+      required: true
+      description: Your unique identifier for the end user.
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

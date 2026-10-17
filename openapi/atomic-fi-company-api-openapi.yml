@@ -107,6 +107,21 @@ paths:
                 $ref: '#/components/schemas/Company'
 components:
   schemas:
+    Company:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        branding:
+          type: object
+        tags:
+          type: array
+          items:
+            type: string
     CompanySearchRequest:
       type: object
       properties:
@@ -120,21 +135,6 @@ components:
           - tax
           - manage
         scopes:
-          type: array
-          items:
-            type: string
-    Company:
-      type: object
-      properties:
-        _id:
-          type: string
-        name:
-          type: string
-        status:
-          type: string
-        branding:
-          type: object
-        tags:
           type: array
           items:
             type: string
