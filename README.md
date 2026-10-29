@@ -1,4 +1,4 @@
-# Atomic (atomic-fi)
+# Atomic
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,192 +66,131 @@
 
 Atomic is a payroll and financial connectivity platform. Through user-permissioned access to payroll, HR, and merchant accounts, Atomic lets applications switch direct deposit, verify income and employment, retrieve payroll data, and update payment methods on file. The Transact SDK is an embedded, hosted front-end that drives these workflows on top of Atomic's backend REST API.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/atomic-fi/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/atomic-fi/refs/heads/main/apis.yml)
+**Areas:** Fintech · Payroll · Direct Deposit · Income Verification · Employment Verification · Financial Connectivity · Embedded Finance
 
-## Tags
+## Atomic on APIs.io
 
-- Fintech
-- Payroll
-- Direct Deposit
-- Income Verification
-- Employment Verification
-- Financial Connectivity
-- Embedded Finance
+Everything profiled for Atomic is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/atomic-fi/](https://apis.io/providers/atomic-fi/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (9)
 
-- **Created:** 2026-07-01
-- **Modified:** 2026-07-01
+- [Atomic Access Tokens API](https://apis.io/apis/atomic-fi/atomic-fi-access-tokens-api/) — The Access Tokens API from Atomic — 2 operation(s) for access tokens.
+- [Atomic Company API](https://apis.io/apis/atomic-fi/atomic-fi-company-api/) — The Company API from Atomic — 3 operation(s) for company.
+- [Atomic Data API](https://apis.io/apis/atomic-fi/atomic-fi-data-api/) — The Data API from Atomic — 7 operation(s) for data.
+- [Atomic Linked Accounts API](https://apis.io/apis/atomic-fi/atomic-fi-linked-accounts-api/) — The Linked Accounts API from Atomic — 2 operation(s) for linked accounts.
+- [Atomic PayLink API](https://apis.io/apis/atomic-fi/atomic-fi-paylink-api/) — The PayLink API from Atomic — 2 operation(s) for paylink.
+- [Atomic Secrets API](https://apis.io/apis/atomic-fi/atomic-fi-secrets-api/) — The Secrets API from Atomic — 2 operation(s) for secrets.
+- [Atomic Tasks API](https://apis.io/apis/atomic-fi/atomic-fi-tasks-api/) — The Tasks API from Atomic — 5 operation(s) for tasks.
+- [Atomic Users API](https://apis.io/apis/atomic-fi/atomic-fi-users-api/) — The Users API from Atomic — 3 operation(s) for users.
+- [Atomic Webhooks API](https://apis.io/apis/atomic-fi/atomic-fi-webhooks-api/) — The Webhooks API from Atomic — 2 operation(s) for webhooks.
 
-## APIs
+### Published properties
 
-### Atomic Access Tokens API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Exchanges your API Key and Secret for a short-lived publicToken that initializes the Transact SDK on the client. Includes creating and revoking access tokens, called from your backend so credentials never reach the browser.
+#### Agentic access (1)
 
-- **Human URL:** [https://docs.atomicfi.com/reference/api](https://docs.atomicfi.com/reference/api)
-- **Base URL:** `https://api.atomicfi.com`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Atomic Fi Agentic Access](https://apis.io/agentic-access/atomic-fi/atomic-fi-agentic-access/)
 
-- Access Tokens
-- Authentication
-- Public Token
+#### Collections (10)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://docs.atomicfi.com/reference/api)
-- [API Reference](https://docs.atomicfi.com/reference/api)
-- [OpenAPI](openapi/atomic-fi-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/atomic-fi.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/atomic-fi.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Atomic API](https://apis.io/collections/atomic-fi/open-atomic-fi/)
+- [Atomic Access Tokens API](https://apis.io/collections/atomic-fi/open-atomic-fi-access-tokens-api/)
+- [Atomic Access Tokens Company API](https://apis.io/collections/atomic-fi/open-atomic-fi-company-api/)
+- [Atomic Access Tokens Data API](https://apis.io/collections/atomic-fi/open-atomic-fi-data-api/)
+- [Atomic Access Tokens Linked Accounts API](https://apis.io/collections/atomic-fi/open-atomic-fi-linked-accounts-api/)
+- [Atomic Access Tokens PayLink API](https://apis.io/collections/atomic-fi/open-atomic-fi-paylink-api/)
+- [Atomic Access Tokens Secrets API](https://apis.io/collections/atomic-fi/open-atomic-fi-secrets-api/)
+- [Atomic Access Tokens Tasks API](https://apis.io/collections/atomic-fi/open-atomic-fi-tasks-api/)
+- [Atomic Access Tokens Users API](https://apis.io/collections/atomic-fi/open-atomic-fi-users-api/)
+- [Atomic Access Tokens Webhooks API](https://apis.io/collections/atomic-fi/open-atomic-fi-webhooks-api/)
 
-### Atomic Transact SDK
+#### Security (2)
 
-Embedded, hosted front-end (Browser, iOS, Android, React Native, Flutter, Capacitor, WebView) launched with Atomic.transact() and a publicToken. It runs deposit, verify, and tax task workflows, handling user authentication and consent, and emits client-side events (onFinish, onClose, onInteraction, onTaskStatusUpdate) over Atomic's backend API.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://docs.atomicfi.com/reference/transact-sdk](https://docs.atomicfi.com/reference/transact-sdk)
-- **Base URL:** `https://api.atomicfi.com`
+- [Atomic Fi Authentication](https://apis.io/security/atomic-fi/atomic-fi-authentication/)
+- [Atomic Fi Domain Security](https://apis.io/security/atomic-fi/atomic-fi-domain-security/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Transact
-- SDK
-- Embedded
-- Front End
+Published plans, tiers and prices.
 
-#### Properties
+- [Atomic Fi Plans Pricing](https://apis.io/plans/atomic-fi/atomic-fi-plans-pricing/)
 
-- [Documentation](https://docs.atomicfi.com/reference/transact-sdk)
-- [OpenAPI](openapi/atomic-fi-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+#### Rate limits (1)
 
-### Atomic Tasks API
+Published request limits.
 
-Retrieves task details and status, generates presigned file URLs, runs task prescreen confidence checks, and starts task workflows from an existing linked account. Tasks are the unit of work behind deposit, verify, and tax operations.
+- [Atomic Fi Rate Limits](https://apis.io/rate-limits/atomic-fi/atomic-fi-rate-limits/)
 
-- **Human URL:** [https://docs.atomicfi.com/reference/api](https://docs.atomicfi.com/reference/api)
-- **Base URL:** `https://api.atomicfi.com`
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Tasks
-- Task Workflow
-- Status
+- [Atomic Fi Finops](https://apis.io/finops/atomic-fi/atomic-fi-finops/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://docs.atomicfi.com/reference/api)
-- [OpenAPI](openapi/atomic-fi-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/atomic-fi.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/atomic-fi.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### Atomic Deposit API
-
-Switches a user's direct deposit at their payroll or HR provider, supporting total, fixed, and percent distribution splits. Surfaced through the deposit task operation and exposes the user's current deposit accounts on file.
-
-- **Human URL:** [https://docs.atomicfi.com/products/deposit/implementation](https://docs.atomicfi.com/products/deposit/implementation)
-- **Base URL:** `https://api.atomicfi.com`
-
-#### Tags
-
-- Deposit
-- Direct Deposit Switch
-- Distribution
-
-#### Properties
-
-- [Documentation](https://docs.atomicfi.com/products/deposit/implementation)
-- [OpenAPI](openapi/atomic-fi-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Atomic Verify API
-
-Verifies income and employment via the verify task operation, returning employment status, income (annual/hourly, pay cycle, next pay date), identity, statements/paystubs, timesheets, and taxes (W-2 / 1099) pulled from the connected payroll system.
-
-- **Human URL:** [https://docs.atomicfi.com/products/verify/implementation](https://docs.atomicfi.com/products/verify/implementation)
-- **Base URL:** `https://api.atomicfi.com`
-
-#### Tags
-
-- Verify
-- Income
-- Employment
-- Identity
-
-#### Properties
-
-- [Documentation](https://docs.atomicfi.com/products/verify/implementation)
-- [OpenAPI](openapi/atomic-fi-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Atomic PayLink API
-
-User-permissioned access into merchants and subscription services to read and update payment methods on file, and to run account actions such as pausing or canceling a plan. Card data flows through a dedicated PCI host (pci.atomicfi.com).
-
-- **Human URL:** [https://docs.atomicfi.com/paylink/reference/api](https://docs.atomicfi.com/paylink/reference/api)
-- **Base URL:** `https://api.atomicfi.com`
-
-#### Tags
-
-- PayLink
-- Manage Payments
-- Cards on File
-- Subscriptions
-
-#### Properties
-
-- [Documentation](https://docs.atomicfi.com/paylink/reference/api)
-- [API Reference](https://docs.atomicfi.com/paylink/reference/api)
-- [OpenAPI](openapi/atomic-fi-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-### Atomic Data & Transactions API
-
-Retrieves payroll data by user identifier - deposit accounts, employment, identity, income, statements, timesheets, and taxes - plus linked-account listing and user/monitoring management for ongoing connections.
-
-- **Human URL:** [https://docs.atomicfi.com/reference/api](https://docs.atomicfi.com/reference/api)
-- **Base URL:** `https://api.atomicfi.com`
-
-#### Tags
-
-- Data
-- Payroll Data
-- Statements
-- Linked Accounts
-
-#### Properties
-
-- [Documentation](https://docs.atomicfi.com/reference/api)
-- [OpenAPI](openapi/atomic-fi-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/atomic-fi.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/atomic-fi.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Atomic Webhooks API
-
-Manages webhook endpoints and signing secrets, and delivers real-time CloudEvents-formatted notifications such as task-status-updated, payroll-data-fetched, and the *-synced data events, with retries and manual replay.
-
-- **Human URL:** [https://docs.atomicfi.com/reference/webhooks](https://docs.atomicfi.com/reference/webhooks)
-- **Base URL:** `https://api.atomicfi.com`
-
-#### Tags
-
-- Webhooks
-- Events
-- CloudEvents
-
-#### Properties
-
-- [Documentation](https://docs.atomicfi.com/reference/webhooks)
-- [OpenAPI](openapi/atomic-fi-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/atomicfi)
-- [LinkedIn](https://www.linkedin.com/company/atomicfi)
 - [Website](https://atomicfi.com)
 - [Documentation](https://docs.atomicfi.com)
-- [Plans](plans/atomic-fi-plans-pricing.yml)
-- [Rate Limits](rate-limits/atomic-fi-rate-limits.yml)
-- [Fin Ops](finops/atomic-fi-finops.yml)
+- [GitHub](https://github.com/atomicfi)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 24.9** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 46.6 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 29.8 |
+| Access clarity | 5.3 |
+
+**Agent readiness 17.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 11.8** — Employment & Payroll
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/atomic-fi/](https://apis.io/providers/atomic-fi/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Atomic: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/atomic-fi/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
